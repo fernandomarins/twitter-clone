@@ -13,8 +13,9 @@ class MainTabController: UITabBarController {
     let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
-        button.backgroundColor = .blue
+        button.backgroundColor = .twitterBlue
         button.setImage(UIImage(named: "new_tweet"), for: .normal)
+        button.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -26,15 +27,23 @@ class MainTabController: UITabBarController {
         configureViewControllers()
     }
     
+    // MARK: - Selectors
+    @objc private func actionButtonTapped() {
+        
+    }
+    
     // MARK: - Helpers
     
     private func configureUI() {
         view.addSubview(actionButton)
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        actionButton.widthAnchor.constraint(equalToConstant: 56).isActive = true
-        actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
-        actionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        
+        actionButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                            paddingBottom: 64,
+                            right: view.rightAnchor,
+                            paddingRight: 16,
+                            width: 56,
+                            height: 56)
+        
         actionButton.layer.cornerRadius = 56 / 2
     }
     
@@ -63,7 +72,6 @@ class MainTabController: UITabBarController {
         nav.navigationBar.barTintColor = .white
         
         return nav
-        
     }
 
 }

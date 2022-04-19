@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162C280F2FD30023ADBA /* Extensions.swift */; };
+		55D01630280F380B0023ADBA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162F280F380B0023ADBA /* LoginController.swift */; };
 		55D5908D280EF68E00530021 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D5908C280EF68E00530021 /* AppDelegate.swift */; };
 		55D5908F280EF68E00530021 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D5908E280EF68E00530021 /* SceneDelegate.swift */; };
 		55D59096280EF68F00530021 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D59095280EF68F00530021 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		55D0162C280F2FD30023ADBA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		55D0162F280F380B0023ADBA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		55D59089280EF68E00530021 /* twitter-clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "twitter-clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55D5908C280EF68E00530021 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55D5908E280EF68E00530021 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55D0162E280F37EF0023ADBA /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				55D0162F280F380B0023ADBA /* LoginController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		55D59080280EF68E00530021 = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +99,7 @@
 		55D590A1280F03F700530021 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				55D0162E280F37EF0023ADBA /* Authentication */,
 				55D590A9280F05AB00530021 /* MainTabController.swift */,
 				55D590AB280F0A6100530021 /* FeedController.swift */,
 				55D590AD280F0A7400530021 /* ExploreController.swift */,
@@ -201,6 +212,7 @@
 				55D590B2280F0A8A00530021 /* ConversationsController.swift in Sources */,
 				55D590AC280F0A6100530021 /* FeedController.swift in Sources */,
 				55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */,
+				55D01630280F380B0023ADBA /* LoginController.swift in Sources */,
 				55D590AE280F0A7400530021 /* ExploreController.swift in Sources */,
 				55D5908D280EF68E00530021 /* AppDelegate.swift in Sources */,
 				55D5908F280EF68E00530021 /* SceneDelegate.swift in Sources */,

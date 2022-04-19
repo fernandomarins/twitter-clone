@@ -9,12 +9,12 @@ import UIKit
 
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
-                left: NSLayoutXAxisAnchor? = nil,
-                bottom: NSLayoutYAxisAnchor? = nil,
-                right: NSLayoutXAxisAnchor? = nil,
                 paddingTop: CGFloat = 0,
+                left: NSLayoutXAxisAnchor? = nil,
                 paddingLeft: CGFloat = 0,
+                bottom: NSLayoutYAxisAnchor? = nil,
                 paddingBottom: CGFloat = 0,
+                right: NSLayoutXAxisAnchor? = nil,
                 paddingRight: CGFloat = 0,
                 width: CGFloat? = nil,
                 height: CGFloat? = nil) {
