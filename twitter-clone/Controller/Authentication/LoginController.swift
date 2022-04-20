@@ -26,15 +26,25 @@ class LoginController: UIViewController {
     }()
     
     private let emailContainerView: UIView = {
-        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_mail_outline_white_2x-1")!)
-        view.backgroundColor = .systemPurple
+        let image = UIImage(named: "ic_mail_outline_white_2x-1")
+        let view = Utilities().inputContainerView(withImage: image)
         return view
     }()
     
     private let passwordContainer: UIView = {
-        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_lock_outline_white_2x")!)
-        view.backgroundColor = .systemPurple
+        let image = UIImage(named: "ic_lock_outline_white_2x")
+        let view = Utilities().inputContainerView(withImage: image)
         return view
+    }()
+    
+    private let emailTextField: UITextField = {
+        let textField = Utilities().textField(withPlaceholder: "Email")
+        return textField
+    }()
+    
+    private let passwordTextField: UITextField = {
+        let textField = Utilities().textField(withPlaceholder: "Password")
+        return textField
     }()
     
     // MARK: - Lifecycle
@@ -63,5 +73,20 @@ class LoginController: UIViewController {
         
         stackView.addArrangedSubview(emailContainerView)
         stackView.addArrangedSubview(passwordContainer)
+        
+        emailContainerView.addSubview(emailTextField)
+        emailTextField.anchor(left: emailContainerView.leftAnchor,
+                                 paddingLeft: 40,
+                                 bottom: emailContainerView.bottomAnchor,
+                                 paddingBottom: 8,
+                                 right: emailContainerView.rightAnchor)
+        
+        passwordContainer.addSubview(passwordTextField)
+        passwordTextField.anchor(left: passwordContainer.leftAnchor,
+                                 paddingLeft: 40,
+                                 bottom: passwordContainer.bottomAnchor,
+                                 paddingBottom: 8,
+                                 right: passwordContainer.rightAnchor)
+        
     }
 }
