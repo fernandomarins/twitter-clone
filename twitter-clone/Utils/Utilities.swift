@@ -26,6 +26,15 @@ class Utilities {
                          width: 24,
                          height: 24)
         
+        let divisorView = UIView()
+        divisorView.backgroundColor = .white
+        view.addSubview(divisorView)
+        divisorView.anchor(left: view.leftAnchor,
+                           paddingLeft: 8,
+                           bottom: view.bottomAnchor,
+                           right: view.rightAnchor,
+                           height: 0.75)
+        
         return view
     }
     

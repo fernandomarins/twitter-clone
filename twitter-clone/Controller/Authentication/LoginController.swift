@@ -44,6 +44,7 @@ class LoginController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Password")
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -69,7 +70,9 @@ class LoginController: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: logoImageView.bottomAnchor,
                          left: view.leftAnchor,
-                         right: view.rightAnchor)
+                         paddingLeft: 16,
+                         right: view.rightAnchor,
+                         paddingRight: 16)
         
         stackView.addArrangedSubview(emailContainerView)
         stackView.addArrangedSubview(passwordContainer)
