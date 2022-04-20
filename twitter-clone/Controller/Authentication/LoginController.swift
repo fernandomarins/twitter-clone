@@ -8,22 +8,60 @@
 import UIKit
 
 class LoginController: UIViewController {
+    
+    // MARK: - Properties
+    private let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "TwitterLogo")
+        return imageView
+    }()
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    private let emailContainerView: UIView = {
+        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_mail_outline_white_2x-1")!)
+        view.backgroundColor = .systemPurple
+        return view
+    }()
+    
+    private let passwordContainer: UIView = {
+        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_lock_outline_white_2x")!)
+        view.backgroundColor = .systemPurple
+        return view
+    }()
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureUI()
     }
     
+    // MARK: - Selectors
+    
+    // MARK: - Helpers
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureUI() {
+        view.backgroundColor = .twitterBlue
+        navigationController?.navigationBar.barStyle = .black
+        
+        view.addSubview(logoImageView)
+        logoImageView.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
+        logoImageView.setDimensions(width: 150, height: 150)
+        
+        view.addSubview(stackView)
+        stackView.anchor(top: logoImageView.bottomAnchor,
+                         left: view.leftAnchor,
+                         right: view.rightAnchor)
+        
+        stackView.addArrangedSubview(emailContainerView)
+        stackView.addArrangedSubview(passwordContainer)
     }
-    */
-
 }
