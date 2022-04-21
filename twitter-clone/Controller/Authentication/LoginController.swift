@@ -80,7 +80,8 @@ class LoginController: UIViewController {
     }
     
     @objc private func handleSignUp() {
-        
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK: - Helpers
