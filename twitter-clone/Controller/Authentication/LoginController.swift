@@ -21,7 +21,8 @@ class LoginController: UIViewController {
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -48,6 +49,23 @@ class LoginController: UIViewController {
         return textField
     }()
     
+    private let loginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Log In", for: .normal)
+        button.setTitleColor(.twitterBlue, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    private let dontHaveAccountButton: UIButton = {
+        let button = Utilities().attributedButon("Don't have an account? ", "Sign Up")
+        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -56,6 +74,14 @@ class LoginController: UIViewController {
     }
     
     // MARK: - Selectors
+    
+    @objc private func handleLogin() {
+        
+    }
+    
+    @objc private func handleSignUp() {
+        
+    }
     
     // MARK: - Helpers
 
@@ -75,7 +101,6 @@ class LoginController: UIViewController {
                          paddingRight: 16)
         
         stackView.addArrangedSubview(emailContainerView)
-        stackView.addArrangedSubview(passwordContainer)
         
         emailContainerView.addSubview(emailTextField)
         emailTextField.anchor(left: emailContainerView.leftAnchor,
@@ -84,6 +109,8 @@ class LoginController: UIViewController {
                                  paddingBottom: 8,
                                  right: emailContainerView.rightAnchor)
         
+        stackView.addArrangedSubview(passwordContainer)
+        
         passwordContainer.addSubview(passwordTextField)
         passwordTextField.anchor(left: passwordContainer.leftAnchor,
                                  paddingLeft: 40,
@@ -91,5 +118,17 @@ class LoginController: UIViewController {
                                  paddingBottom: 8,
                                  right: passwordContainer.rightAnchor)
         
+        stackView.addArrangedSubview(loginButton)
+        
+        loginButton.anchor(left: passwordContainer.leftAnchor,
+                           right: passwordContainer.rightAnchor,
+                           height: 50)
+        
+        view.addSubview(dontHaveAccountButton)
+        dontHaveAccountButton.anchor(left: view.leftAnchor,
+                                     paddingLeft: 40,
+                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                     right: view.rightAnchor,
+                                     paddingRight: 40)
     }
 }
