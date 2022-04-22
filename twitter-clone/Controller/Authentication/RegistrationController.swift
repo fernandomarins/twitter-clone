@@ -119,38 +119,16 @@ class RegistrationController: UIViewController {
         let userName = userNameTextField.text,
         let profileImage = profileImage else { return }
         
-        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else { return }
         
-        // using NSUUID to generate a random name
-        let fileName = NSUUID().uuidString
         
-        // creating a reference inside the storage to place the images
-        let storageRef = storage_profile_images.child(fileName)
-        
-        storageRef.putData(imageData, metadata: nil) { meta, error in
-            storageRef.downloadURL { url, error in
-                guard let profileImageUrl = url?.absoluteString else { return }
-                
-                Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                        return
-                    }
-                    
-                    // we are getting the unique uid here so we can make sure we are uploading the information
-                    // to the right user, otherwise it could get mixed up
-                    guard let uid = result?.user.uid else { return }
-                    
-                    // the values that will be sent to the database
-                    let values = ["email": email, "username": userName, "fullname": fullName, "profileImageUrl": profileImageUrl]
-                    
-                    ref_users.child(uid).updateChildValues(values) { error, ref in
-                        print("Successfully updated user information")
-                    }
-                }
-            }
+        AuthService.shared.registerUser(crendetials: AuthCredentials(email: email,
+                                                                     password: password,
+                                                                     fullName: fullName,
+                                                                     userName: userName,
+                                                                     profileImage: profileImage)) { error, ref in
+            print("Sign Up OK!")
+            print("Handle Update User!")
         }
-        
         
     }
     
