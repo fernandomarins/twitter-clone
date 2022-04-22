@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class RegistrationController: UIViewController {
 
     // MARK: - Properties
     
     private let imagePicker = UIImagePickerController()
+    private var profileImage: UIImage?
     
     private let plusButton: UIButton = {
         let button = UIButton(type: .system)
@@ -41,6 +43,7 @@ class RegistrationController: UIViewController {
     
     private let emailTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Email")
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -67,15 +70,14 @@ class RegistrationController: UIViewController {
         return textField
     }()
     
-    private let usernamedContainer: UIView = {
+    private let userNamedContainer: UIView = {
         let image = UIImage(named: "ic_person_outline_white_2x")
         let view = Utilities().inputContainerView(withImage: image)
         return view
     }()
     
-    private let usernameTextField: UITextField = {
+    private let userNameTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Username")
-        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -111,6 +113,44 @@ class RegistrationController: UIViewController {
     }
     
     @objc private func handleSignUp() {
+        guard let email = emailTextField.text,
+        let password = passwordTextField.text,
+        let fullName = fullNameTextField.text,
+        let userName = userNameTextField.text,
+        let profileImage = profileImage else { return }
+        
+        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else { return }
+        
+        // using NSUUID to generate a random name
+        let fileName = NSUUID().uuidString
+        
+        // creating a reference inside the storage to place the images
+        let storageRef = storage_profile_images.child(fileName)
+        
+        storageRef.putData(imageData, metadata: nil) { meta, error in
+            storageRef.downloadURL { url, error in
+                guard let profileImageUrl = url?.absoluteString else { return }
+                
+                Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        return
+                    }
+                    
+                    // we are getting the unique uid here so we can make sure we are uploading the information
+                    // to the right user, otherwise it could get mixed up
+                    guard let uid = result?.user.uid else { return }
+                    
+                    // the values that will be sent to the database
+                    let values = ["email": email, "username": userName, "fullname": fullName, "profileImageUrl": profileImageUrl]
+                    
+                    ref_users.child(uid).updateChildValues(values) { error, ref in
+                        print("Successfully updated user information")
+                    }
+                }
+            }
+        }
+        
         
     }
     
@@ -165,19 +205,19 @@ class RegistrationController: UIViewController {
                                  paddingBottom: 8,
                                  right: fullNameContainerView.rightAnchor)
         
-        stackView.addArrangedSubview(usernamedContainer)
+        stackView.addArrangedSubview(userNamedContainer)
         
-        usernamedContainer.addSubview(usernameTextField)
-        usernameTextField.anchor(left: usernamedContainer.leftAnchor,
+        userNamedContainer.addSubview(userNameTextField)
+        userNameTextField.anchor(left: userNamedContainer.leftAnchor,
                                  paddingLeft: 40,
-                                 bottom: usernamedContainer.bottomAnchor,
+                                 bottom: userNamedContainer.bottomAnchor,
                                  paddingBottom: 8,
-                                 right: usernamedContainer.rightAnchor)
+                                 right: userNamedContainer.rightAnchor)
         
         stackView.addArrangedSubview(signUpButton)
         
-        signUpButton.anchor(left: usernamedContainer.leftAnchor,
-                           right: usernamedContainer.rightAnchor,
+        signUpButton.anchor(left: userNamedContainer.leftAnchor,
+                           right: userNamedContainer.rightAnchor,
                            height: 50)
         
         view.addSubview(alreadyHaveAccountButton)
@@ -194,6 +234,8 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
        
         guard let imageProfile = info[.editedImage] as? UIImage else { return }
+        
+        profileImage = imageProfile
         
         plusButton.layer.borderColor = UIColor.white.cgColor
         plusButton.layer.borderWidth = 3

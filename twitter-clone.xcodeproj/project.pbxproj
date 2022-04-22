@@ -11,6 +11,7 @@
 		5527697D2812D69400C5FAF3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5527697C2812D69400C5FAF3 /* FirebaseAuth */; };
 		5527697F2812D69400C5FAF3 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 5527697E2812D69400C5FAF3 /* FirebaseDatabase */; };
 		552769812812D69400C5FAF3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 552769802812D69400C5FAF3 /* FirebaseStorage */; };
+		552769832812FEB200C5FAF3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552769822812FEB200C5FAF3 /* Constants.swift */; };
 		559FE70328105D9B0013AE94 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559FE70228105D9B0013AE94 /* Utilities.swift */; };
 		55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162C280F2FD30023ADBA /* Extensions.swift */; };
 		55D01630280F380B0023ADBA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162F280F380B0023ADBA /* LoginController.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		552769792812D56F00C5FAF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		552769822812FEB200C5FAF3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		559FE70228105D9B0013AE94 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		55D0162C280F2FD30023ADBA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		55D0162F280F380B0023ADBA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				55D0162C280F2FD30023ADBA /* Extensions.swift */,
 				559FE70228105D9B0013AE94 /* Utilities.swift */,
+				552769822812FEB200C5FAF3 /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				55D5908F280EF68E00530021 /* SceneDelegate.swift in Sources */,
 				55D01632280F394E0023ADBA /* RegistrationController.swift in Sources */,
 				55D590AA280F05AB00530021 /* MainTabController.swift in Sources */,
+				552769832812FEB200C5FAF3 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
