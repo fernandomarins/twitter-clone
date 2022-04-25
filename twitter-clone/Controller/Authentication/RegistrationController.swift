@@ -119,13 +119,13 @@ class RegistrationController: UIViewController {
         let userName = userNameTextField.text,
         let profileImage = profileImage else { return }
         
+        let credentials = AuthCredentials(email: email,
+                                          password: password,
+                                          fullName: fullName,
+                                          userName: userName,
+                                          profileImage: profileImage)
         
-        
-        AuthService.shared.registerUser(crendetials: AuthCredentials(email: email,
-                                                                     password: password,
-                                                                     fullName: fullName,
-                                                                     userName: userName,
-                                                                     profileImage: profileImage)) { error, ref in
+        AuthService.shared.registerUser(crendetials: credentials) { error, ref in
             print("Sign Up OK!")
             print("Handle Update User!")
         }

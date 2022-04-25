@@ -40,6 +40,7 @@ class LoginController: UIViewController {
     
     private let emailTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Email")
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -77,6 +78,16 @@ class LoginController: UIViewController {
     
     @objc private func handleLogin() {
         
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else { return }
+        
+        AuthService.shared.logUserIn(withEmail: email, password: password) { [weak self] result, error in
+            if let error = error {
+                print("error logging in \(error.localizedDescription)")
+            }
+            
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc private func handleSignUp() {
