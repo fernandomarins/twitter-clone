@@ -19,6 +19,7 @@ struct AuthCredentials {
 
 struct AuthService {
     static let shared = AuthService()
+    private init() {}
     
     func logUserIn(withEmail email: String, password: String, completion: AuthDataResultCallback?) {
         
