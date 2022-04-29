@@ -26,6 +26,7 @@ class FeedController: UIViewController {
         
         let imageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
         imageView.contentMode = .scaleAspectFit
+        imageView.setDimensions(width: 44, height: 44)
         navigationItem.titleView = imageView
         
         configureLeftBarButton()
@@ -36,10 +37,14 @@ class FeedController: UIViewController {
         profileImageView.setDimensions(width: 32, height: 32)
         profileImageView.layer.cornerRadius = 32 / 2
         profileImageView.layer.masksToBounds = true
+        downloadAndSetProfileImage(image: profileImageView)
+    }
+    
+    private func downloadAndSetProfileImage(image: UIImageView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let url = URL(string:  UserService.profileImageUrl) else { return }
-            profileImageView.sd_setImage(with: url, completed: nil)
+            image.sd_setImage(with: url, completed: nil)
         }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: image)
     }
 }
