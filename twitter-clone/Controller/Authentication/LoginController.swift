@@ -40,6 +40,7 @@ class LoginController: UIViewController {
     
     private let emailTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Email")
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -67,7 +68,7 @@ class LoginController: UIViewController {
     }()
     
     // MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -77,6 +78,16 @@ class LoginController: UIViewController {
     
     @objc private func handleLogin() {
         
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else { return }
+        
+        AuthService.shared.logUserIn(withEmail: email, password: password) { [weak self] result, error in
+            if let error = error {
+                print("error logging in \(error.localizedDescription)")
+            }
+            
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc private func handleSignUp() {
@@ -85,7 +96,7 @@ class LoginController: UIViewController {
     }
     
     // MARK: - Helpers
-
+    
     private func configureUI() {
         view.backgroundColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .black
@@ -105,10 +116,10 @@ class LoginController: UIViewController {
         
         emailContainerView.addSubview(emailTextField)
         emailTextField.anchor(left: emailContainerView.leftAnchor,
-                                 paddingLeft: 40,
-                                 bottom: emailContainerView.bottomAnchor,
-                                 paddingBottom: 8,
-                                 right: emailContainerView.rightAnchor)
+                              paddingLeft: 40,
+                              bottom: emailContainerView.bottomAnchor,
+                              paddingBottom: 8,
+                              right: emailContainerView.rightAnchor)
         
         stackView.addArrangedSubview(passwordContainer)
         
