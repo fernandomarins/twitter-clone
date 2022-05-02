@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import SDWebImage
 
 class TweetCell: UICollectionViewCell {
     
     // MARK: - Properties
+    
+    var tweet: Tweet? {
+        didSet {
+            configure()
+        }
+    }
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -33,7 +40,6 @@ class TweetCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.text = "Some text caption"
         return label
     }()
     
@@ -67,7 +73,6 @@ class TweetCell: UICollectionViewCell {
     private let infoLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "Textingggg"
         return label
     }()
     
@@ -136,6 +141,11 @@ class TweetCell: UICollectionViewCell {
         button.setDimensions(width: 20, height: 20)
         button.addTarget(self, action: selector, for: .touchUpInside)
         return button
+    }
+    
+    private func configure() {
+        guard let tweet = tweet else { return }
+        captionLabel.text = tweet.caption
     }
     
     // MARK: - Selectors

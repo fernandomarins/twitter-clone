@@ -12,6 +12,14 @@ class FeedController: UICollectionViewController {
 
     // MARK: - Properties
     
+    private var tweets = [Tweet]() {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+    
     private let reuseIdentifier = "tweetCell"
     
     var user: User? {
@@ -20,7 +28,7 @@ class FeedController: UICollectionViewController {
         }
     }
     
-    let profileImageView: UIImageView = {
+    private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.setDimensions(width: 32, height: 32)
         imageView.layer.cornerRadius = 32 / 2
@@ -40,8 +48,8 @@ class FeedController: UICollectionViewController {
     // MARK: - API
     
     private func fetchTweets() {
-        TweetService.shared.fetchTweets { tweets in
-            print("tweets are: \(tweets)")
+        TweetService.shared.fetchTweets { [weak self] tweets in
+            self?.tweets = tweets
         }
     }
     
@@ -70,17 +78,23 @@ class FeedController: UICollectionViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
+
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return tweets.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
         
+        cell.tweet = tweets[indexPath.row]
+        
         return cell
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

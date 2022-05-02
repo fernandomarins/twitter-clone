@@ -12,7 +12,7 @@ class MainTabController: UITabBarController {
     
     // MARK: - Properties
     
-    var user: User? {
+    private var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
             guard let feed = nav.viewControllers.first as? FeedController else { return }
@@ -66,7 +66,7 @@ class MainTabController: UITabBarController {
         }
     }
     
-    func logUserOut() {
+    private func logUserOut() {
         do {
             try Auth.auth().signOut()
             print("Did log out")
