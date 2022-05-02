@@ -18,7 +18,9 @@ struct AuthCredentials {
 }
 
 struct AuthService {
+    
     static let shared = AuthService()
+    
     private init() {}
     
     func logUserIn(withEmail email: String, password: String, completion: AuthDataResultCallback?) {
@@ -41,6 +43,8 @@ struct AuthService {
         // using NSUUID to generate a random name
         let fileName = NSUUID().uuidString
         
+        db_ref.database.isPersistenceEnabled = true
+        
         // creating a reference inside the storage to place the images
         let storageRef = storage_profile_images.child(fileName)
         
@@ -59,7 +63,12 @@ struct AuthService {
                     guard let uid = result?.user.uid else { return }
                     
                     // the values that will be sent to the database
-                    let values = ["email": email, "username": userName, "fullname": fullName, "profileImageUrl": profileImageUrl]
+                    let values = [
+                        "email": email,
+                        "username": userName,
+                        "fullname": fullName,
+                        "profileImageUrl": profileImageUrl
+                    ]
                     
                     ref_users.child(uid).updateChildValues(values, withCompletionBlock: completion)
                 }
