@@ -33,6 +33,7 @@
 		55E77B9C28200D430034F253 /* CaptionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9B28200D430034F253 /* CaptionTextView.swift */; };
 		55E77B9E2820141A0034F253 /* TweetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9D2820141A0034F253 /* TweetService.swift */; };
 		55E77BA0282026CF0034F253 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9F282026CF0034F253 /* Tweet.swift */; };
+		55E77BA228202C200034F253 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77BA128202C200034F253 /* TweetCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		55E77B9B28200D430034F253 /* CaptionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTextView.swift; sourceTree = "<group>"; };
 		55E77B9D2820141A0034F253 /* TweetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetService.swift; sourceTree = "<group>"; };
 		55E77B9F282026CF0034F253 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		55E77BA128202C200034F253 /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				55E77B9B28200D430034F253 /* CaptionTextView.swift */,
+				55E77BA128202C200034F253 /* TweetCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				559FE70328105D9B0013AE94 /* Utilities.swift in Sources */,
 				55D590AC280F0A6100530021 /* FeedController.swift in Sources */,
 				55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */,
+				55E77BA228202C200034F253 /* TweetCell.swift in Sources */,
 				55D01630280F380B0023ADBA /* LoginController.swift in Sources */,
 				55591C2A281306FF0078473B /* AuthService.swift in Sources */,
 				55CAE845281C1D3000429E41 /* UploadTweetController.swift in Sources */,
