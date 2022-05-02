@@ -32,6 +32,7 @@
 		55D590B2280F0A8A00530021 /* ConversationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D590B1280F0A8A00530021 /* ConversationsController.swift */; };
 		55E77B9C28200D430034F253 /* CaptionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9B28200D430034F253 /* CaptionTextView.swift */; };
 		55E77B9E2820141A0034F253 /* TweetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9D2820141A0034F253 /* TweetService.swift */; };
+		55E77BA0282026CF0034F253 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E77B9F282026CF0034F253 /* Tweet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		55D590B1280F0A8A00530021 /* ConversationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsController.swift; sourceTree = "<group>"; };
 		55E77B9B28200D430034F253 /* CaptionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTextView.swift; sourceTree = "<group>"; };
 		55E77B9D2820141A0034F253 /* TweetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetService.swift; sourceTree = "<group>"; };
+		55E77B9F282026CF0034F253 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				553CEE9028199B5000529954 /* User.swift */,
+				55E77B9F282026CF0034F253 /* Tweet.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				55D01632280F394E0023ADBA /* RegistrationController.swift in Sources */,
 				55D590AA280F05AB00530021 /* MainTabController.swift in Sources */,
 				552769832812FEB200C5FAF3 /* Constants.swift in Sources */,
+				55E77BA0282026CF0034F253 /* Tweet.swift in Sources */,
 				55E77B9E2820141A0034F253 /* TweetService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

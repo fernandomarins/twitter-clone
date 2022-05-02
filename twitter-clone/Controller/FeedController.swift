@@ -48,8 +48,7 @@ class FeedController: UIViewController {
     
     private func configureLeftBarButton() {
         guard let user = user else { return }
-        guard let url = URL(string:  user.profileImageUrl) else { return }
-        profileImageView.sd_setImage(with: url, completed: nil)
+        profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
     }
 }
