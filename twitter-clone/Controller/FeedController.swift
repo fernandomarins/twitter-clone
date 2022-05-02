@@ -12,6 +12,20 @@ class FeedController: UIViewController {
 
     // MARK: - Properties
     
+    var user: User? {
+        didSet {
+            configureLeftBarButton()
+        }
+    }
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setDimensions(width: 32, height: 32)
+        imageView.layer.cornerRadius = 32 / 2
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -33,18 +47,9 @@ class FeedController: UIViewController {
     }
     
     private func configureLeftBarButton() {
-        let profileImageView = UIImageView()
-        profileImageView.setDimensions(width: 32, height: 32)
-        profileImageView.layer.cornerRadius = 32 / 2
-        profileImageView.layer.masksToBounds = true
-        downloadAndSetProfileImage(image: profileImageView)
-    }
-    
-    private func downloadAndSetProfileImage(image: UIImageView) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            guard let url = URL(string:  UserService.profileImageUrl) else { return }
-            image.sd_setImage(with: url, completed: nil)
-        }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: image)
+        guard let user = user else { return }
+        guard let url = URL(string:  user.profileImageUrl) else { return }
+        profileImageView.sd_setImage(with: url, completed: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
     }
 }
