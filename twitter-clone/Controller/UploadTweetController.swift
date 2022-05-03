@@ -98,8 +98,7 @@ class UploadTweetController: UIViewController {
         stackView.addArrangedSubview(profileImageView)
         stackView.addArrangedSubview(captionTextView)
         
-        guard let url = URL(string: user.profileImageUrl) else { return }
-        profileImageView.sd_setImage(with: url, completed: nil)
+        profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
     }
     
     private func configureNavigationBar() {

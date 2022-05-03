@@ -12,7 +12,7 @@ class MainTabController: UITabBarController {
     
     // MARK: - Properties
     
-    var user: User? {
+    private var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
             guard let feed = nav.viewControllers.first as? FeedController else { return }
@@ -47,7 +47,8 @@ class MainTabController: UITabBarController {
     // MARK: - API
     
     private func fetchUser() {
-        UserService.shared.fetchUser() { [weak self] user in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserService.shared.fetchUser(uid: uid) { [weak self] user in
             self?.user = user
         }
     }
@@ -66,7 +67,7 @@ class MainTabController: UITabBarController {
         }
     }
     
-    func logUserOut() {
+    private func logUserOut() {
         do {
             try Auth.auth().signOut()
             print("Did log out")
@@ -101,7 +102,7 @@ class MainTabController: UITabBarController {
     
     private func configureViewControllers() {
         
-        let feed = FeedController()
+        let feed = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let navFeed = templateNavigationController(image: UIImage(named: "home_unselected"), rootViewController: feed)
         
         let explore = ExploreController()

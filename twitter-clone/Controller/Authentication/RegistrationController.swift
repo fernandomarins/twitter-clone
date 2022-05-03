@@ -114,10 +114,10 @@ class RegistrationController: UIViewController {
     
     @objc private func handleSignUp() {
         guard let email = emailTextField.text,
-        let password = passwordTextField.text,
-        let fullName = fullNameTextField.text,
-        let userName = userNameTextField.text,
-        let profileImage = profileImage else { return }
+              let password = passwordTextField.text,
+              let fullName = fullNameTextField.text,
+              let userName = userNameTextField.text?.lowercased(),
+              let profileImage = profileImage else { return }
         
         let credentials = AuthCredentials(email: email,
                                           password: password,
