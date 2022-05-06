@@ -43,7 +43,7 @@ struct AuthService {
         // using NSUUID to generate a random name
         let fileName = NSUUID().uuidString
         
-        db_ref.database.isPersistenceEnabled = true
+//        db_ref.database.isPersistenceEnabled = true
         
         // creating a reference inside the storage to place the images
         let storageRef = storage_profile_images.child(fileName)
