@@ -13,7 +13,7 @@ class ProfileController: UICollectionViewController {
     private let reuseIdentifier = "tweetCell"
     private let headerIdentifier = "profileHeader"
     
-    private let user: User
+    private var user: User
     
     private var tweets = [Tweet]() {
         didSet {
@@ -106,9 +106,17 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 
 extension ProfileController: ProfileHeaderDelegate {
     func handleEditProfileFollow(_ header: ProfileHeader) {
-        UserService.shared.followUser(uid: user.uid) { error, ref in
-            print("did follow")
+        
+        if user.isFollowed {
+            UserService.shared.unfollowUser(uid: user.uid) { [weak self] error, ref in
+                self?.user.isFollowed = false
+            }
+        } else {
+            UserService.shared.followUser(uid: user.uid) { [weak self] error, ref in
+                self?.user.isFollowed = true
+            }
         }
+
     }
     
     func handleDismiss() {

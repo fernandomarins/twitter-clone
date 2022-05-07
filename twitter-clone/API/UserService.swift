@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 
+typealias DatabaseCompletion = ((Error?, DatabaseReference) -> Void)
+
 struct UserService {
     
     static let shared = UserService()
@@ -40,7 +42,7 @@ struct UserService {
         }
     }
     
-    func followUser(uid: String, completion: @escaping (Error?, DatabaseReference) -> Void) {
+    func followUser(uid: String, completion: @escaping (DatabaseCompletion)) {
         // here the current user (currentUid) starts to follow the user (uid)
         // hence, the user (uid) gained the current user (currentUid) as a follower
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -49,4 +51,14 @@ struct UserService {
             ref_user_followers.child(uid).updateChildValues([currentUid: 1], withCompletionBlock: completion)
         }
     }
+    
+    func unfollowUser(uid: String, completion: @escaping (DatabaseCompletion)) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        // here we are accessing the child's child to remove this value
+        ref_user_following.child(currentUid).child(uid).removeValue { error, ref in
+            ref_user_followers.child(uid).child(currentUid).removeValue(completionBlock: completion)
+        }
+    }
+    
 }
