@@ -10,6 +10,7 @@ import SDWebImage
 
 protocol ProfileHeaderDelegate: AnyObject {
     func handleDismiss()
+    func handleEditProfileFollow(_ header: ProfileHeader)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -219,7 +220,7 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc private func handleEditProfileFollow() {
-        
+        delegate?.handleEditProfileFollow(self)
     }
     
     @objc private func handleFollowersTapped() {
