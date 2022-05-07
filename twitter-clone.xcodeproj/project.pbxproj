@@ -20,6 +20,7 @@
 		55591C2A281306FF0078473B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55591C29281306FF0078473B /* AuthService.swift */; };
 		559FE70328105D9B0013AE94 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559FE70228105D9B0013AE94 /* Utilities.swift */; };
 		55AFA2FF28217BE500180DCF /* TweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AFA2FE28217BE500180DCF /* TweetViewModel.swift */; };
+		55C002FA2825AEFD002F4879 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C002F92825AEFD002F4879 /* UserCell.swift */; };
 		55CAE845281C1D3000429E41 /* UploadTweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CAE844281C1D3000429E41 /* UploadTweetController.swift */; };
 		55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162C280F2FD30023ADBA /* Extensions.swift */; };
 		55D01630280F380B0023ADBA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162F280F380B0023ADBA /* LoginController.swift */; };
@@ -52,6 +53,7 @@
 		55591C29281306FF0078473B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		559FE70228105D9B0013AE94 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		55AFA2FE28217BE500180DCF /* TweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewModel.swift; sourceTree = "<group>"; };
+		55C002F92825AEFD002F4879 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		55CAE844281C1D3000429E41 /* UploadTweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetController.swift; sourceTree = "<group>"; };
 		55D0162C280F2FD30023ADBA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		55D0162F280F380B0023ADBA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				5546B6052822ED55006552FD /* ProfileHeader.swift */,
 				55F2FD112823D75D0096E554 /* ProfileFilterView.swift */,
 				55F2FD132823D94C0096E554 /* ProfileFilterCell.swift */,
+				55C002F92825AEFD002F4879 /* UserCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				55E77B9C28200D430034F253 /* CaptionTextView.swift in Sources */,
 				55F2FD142823D94C0096E554 /* ProfileFilterCell.swift in Sources */,
 				55D590B2280F0A8A00530021 /* ConversationsController.swift in Sources */,
+				55C002FA2825AEFD002F4879 /* UserCell.swift in Sources */,
 				559FE70328105D9B0013AE94 /* Utilities.swift in Sources */,
 				55D590AC280F0A6100530021 /* FeedController.swift in Sources */,
 				55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */,
