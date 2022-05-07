@@ -42,10 +42,17 @@ struct ProfileHeaderViewModel {
         // if user is the current user then set to edit profile
         if user.isCurrentUser {
             return "Edit Profile"
-        } else {
-            // if not, figure out following/not following
+        }
+        
+        if !user.isFollowed && !user.isCurrentUser {
             return "Follow"
         }
+        
+        if user.isFollowed {
+            return "Following"
+        }
+        
+        return "Loading"
     }
     
     init(user: User) {

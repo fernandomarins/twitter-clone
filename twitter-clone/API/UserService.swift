@@ -61,4 +61,13 @@ struct UserService {
         }
     }
     
+    func checkIfUserIsFollowed(uid: String, completion: @escaping (Bool) -> Void) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        ref_user_following.child(currentUid).child(uid).observeSingleEvent(of: .value) { snapshot in
+            // checking if that particular uid exists in the database
+            completion(snapshot.exists())
+        }
+    }
+    
 }
