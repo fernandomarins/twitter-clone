@@ -62,22 +62,22 @@ class TweetCell: UICollectionViewCell {
     }()
     
     private lazy var commentButton: UIButton = {
-        let button = createButton(imageName: "comment", selector: #selector(handleCommentTapped))
+        let button = Utilities().createButton(imageName: "comment", selector: #selector(handleCommentTapped))
         return button
     }()
     
     private lazy var retweetButton: UIButton = {
-        let button = createButton(imageName: "retweet", selector: #selector(handleRetweetTapped))
+        let button = Utilities().createButton(imageName: "retweet", selector: #selector(handleRetweetTapped))
         return button
     }()
     
     private lazy var likeButton: UIButton = {
-        let button = createButton(imageName: "like", selector: #selector(handleLikeTapped))
+        let button = Utilities().createButton(imageName: "like", selector: #selector(handleLikeTapped))
         return button
     }()
     
     private lazy var shareButton: UIButton = {
-        let button = createButton(imageName: "share", selector: #selector(handleShareTapped))
+        let button = Utilities().createButton(imageName: "share", selector: #selector(handleShareTapped))
         return button
     }()
     
@@ -145,14 +145,7 @@ class TweetCell: UICollectionViewCell {
     
     // MARK: - Helpers
     
-    private func createButton(imageName: String, selector: Selector) -> UIButton {
-        let button = UIButton()
-        button.setImage(UIImage(named: imageName), for: .normal)
-        button.tintColor = .darkGray
-        button.setDimensions(width: 20, height: 20)
-        button.addTarget(self, action: selector, for: .touchUpInside)
-        return button
-    }
+
     
     private func configure() {
         guard let tweet = tweet else { return }

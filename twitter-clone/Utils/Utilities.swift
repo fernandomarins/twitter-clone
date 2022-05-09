@@ -62,4 +62,13 @@ class Utilities {
         
         return button
     }
+    
+    func createButton(imageName: String, selector: Selector) -> UIButton {
+        let button = UIButton()
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
+        button.setDimensions(width: 20, height: 20)
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        return button
+    }
 }

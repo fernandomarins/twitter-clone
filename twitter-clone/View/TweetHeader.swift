@@ -134,6 +134,33 @@ class TweetHeader: UICollectionReusableView {
         return view
     }()
     
+    private let actionStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 72
+        return stack
+    }()
+    
+    private lazy var commentButton: UIButton = {
+        let button = Utilities().createButton(imageName: "comment", selector: #selector(handleCommentTapped))
+        return button
+    }()
+    
+    private lazy var retweetButton: UIButton = {
+        let button = Utilities().createButton(imageName: "retweet", selector: #selector(handleRetweetTapped))
+        return button
+    }()
+    
+    private lazy var likeButton: UIButton = {
+        let button = Utilities().createButton(imageName: "like", selector: #selector(handleLikeTapped))
+        return button
+    }()
+    
+    private lazy var shareButton: UIButton = {
+        let button = Utilities().createButton(imageName: "share", selector: #selector(handleShareTapped))
+        return button
+    }()
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -188,6 +215,18 @@ class TweetHeader: UICollectionReusableView {
             right: rightAnchor,
             height: 40
         )
+        
+        addSubview(actionStack)
+        actionStack.addArrangedSubview(commentButton)
+        actionStack.addArrangedSubview(retweetButton)
+        actionStack.addArrangedSubview(likeButton)
+        actionStack.addArrangedSubview(shareButton)
+        
+        actionStack.anchor(
+            bottom: bottomAnchor,
+            paddingBottom: 12
+        )
+        actionStack.centerX(inView: self)
     }
     
     required init?(coder: NSCoder) {
@@ -201,6 +240,22 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc private func showActionSheet() {
+        
+    }
+    
+    @objc private func handleCommentTapped() {
+        
+    }
+    
+    @objc private func handleRetweetTapped() {
+        
+    }
+    
+    @objc private func handleLikeTapped() {
+        
+    }
+    
+    @objc private func handleShareTapped() {
         
     }
     
