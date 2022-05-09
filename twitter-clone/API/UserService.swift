@@ -70,4 +70,17 @@ struct UserService {
         }
     }
     
+    func fetchUserStats(uid: String, completion: @escaping(UserRelationStats) -> Void) {
+        ref_user_followers.child(uid).observeSingleEvent(of: .value) { snapshot in
+            let followers = snapshot.children.allObjects.count
+            
+            ref_user_following.child(uid).observeSingleEvent(of: .value) { snapshot in
+                let following = snapshot.children.allObjects.count
+                
+                let stats = UserRelationStats(followers: followers, following: following)
+                completion(stats)
+            }
+        }
+    }
+    
 }
