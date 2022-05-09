@@ -11,6 +11,12 @@ class TweetHeader: UICollectionReusableView {
     
     // MARK: - Properties
     
+    var tweet: Tweet? {
+        didSet {
+            configure()
+        }
+    }
+    
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -83,14 +89,12 @@ class TweetHeader: UICollectionReusableView {
     
     private let retweetsLabel: UILabel = {
         let label = UILabel()
-        label.text = "2 retweets"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
     private let likesLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 likes"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -233,7 +237,7 @@ class TweetHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Selectos
+    // MARK: - Selectors
     
     @objc private func handleProfileImageTapped() {
         
@@ -257,6 +261,23 @@ class TweetHeader: UICollectionReusableView {
     
     @objc private func handleShareTapped() {
         
+    }
+    
+    // MARK: - Helpers
+    
+    private func configure() {
+        
+        guard let tweet = tweet else { return }
+
+        let viewModel = TweetViewModel(tweet: tweet)
+        
+        captionLabel.text = tweet.caption
+        fullNameLabel.text = tweet.user.fullName
+        userNameLabel.text = viewModel.userNameText
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
+        dateLabel.text = viewModel.headerTimeStamp
+        retweetsLabel.attributedText = viewModel.retweetAttributedString
+        likesLabel.attributedText = viewModel.likesAttributedString
     }
     
 }

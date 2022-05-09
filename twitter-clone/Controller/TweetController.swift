@@ -60,8 +60,7 @@ extension TweetController {
 extension TweetController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! TweetHeader
-//        header.delegate = self
-//        header.user = user
+        header.tweet = tweet
         
         return header
     }
