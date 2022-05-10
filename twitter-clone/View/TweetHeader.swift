@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol TweetHeaderDelegate: AnyObject {
+    func showActionSheet()
+}
+
 class TweetHeader: UICollectionReusableView {
     
     // MARK: - Properties
+    
+    weak var delegate: TweetHeaderDelegate?
     
     var tweet: Tweet? {
         didSet {
@@ -244,7 +250,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc private func showActionSheet() {
-        
+        delegate?.showActionSheet()
     }
     
     @objc private func handleCommentTapped() {
