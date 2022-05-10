@@ -15,6 +15,9 @@ class ActionSheetLauncher: NSObject {
     private let tableView = UITableView()
     private let reuseIdentifier = "actionSheetCell"
     
+    // we use lazy var because the user will only get set once the class is initialized
+    private lazy var viewModel = ActionSheetViewModel(user: user)
+    
     private var window: UIWindow?
     
     private lazy var blackView: UIView = {
@@ -65,8 +68,6 @@ class ActionSheetLauncher: NSObject {
     // MARK: - Helpers
     
     func show() {
-        print("action sheet for \(user.userName)")
-        
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
@@ -74,7 +75,7 @@ class ActionSheetLauncher: NSObject {
         self.window = window
         
         window.addSubview(blackView)
-        let height = CGFloat(3 * 60) + 100
+        let height = CGFloat(viewModel.options.count * 60) + 100
         blackView.frame = window.frame
         
         window.addSubview(tableView)
@@ -87,7 +88,6 @@ class ActionSheetLauncher: NSObject {
             self?.blackView.alpha = 1
             self?.tableView.frame.origin.y -= height
         }
-
     }
     
     private func configureTableView() {
@@ -114,12 +114,12 @@ class ActionSheetLauncher: NSObject {
 
 extension ActionSheetLauncher: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ActionSheetCell
-        
+        cell.option = viewModel.options[indexPath.row]
         return cell
     }
 }

@@ -10,6 +10,13 @@ import UIKit
 class ActionSheetCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    var option: ActionSheetOptions? {
+        didSet {
+            configure()
+        }
+    }
+    
     private let optionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -26,6 +33,7 @@ class ActionSheetCell: UITableViewCell {
     }()
     
     // MARK: - Lifecycle
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -47,6 +55,12 @@ class ActionSheetCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Helpers
+    
+    private func configure() {
+        titleLabel.text = option?.description
     }
     
 }
