@@ -214,7 +214,7 @@ class TweetHeader: UICollectionReusableView {
         addSubview(statsView)
         statsView.anchor(
             top: dateLabel.bottomAnchor,
-            paddingTop: 20,
+            paddingTop: 12,
             left: leftAnchor,
             right: rightAnchor,
             height: 40

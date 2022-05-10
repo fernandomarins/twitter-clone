@@ -11,7 +11,10 @@ import SDWebImage
 class UploadTweetController: UIViewController {
     
     // MARK: - Properties
+    
     private var user: User
+    private let config: UploadTweetConfiguration
+    private lazy var viewModel = UploadTweetViewModel(config: config)
     
     private lazy var actionButton: UIButton = {
         let button = UIButton(type: .system)
@@ -29,6 +32,7 @@ class UploadTweetController: UIViewController {
     private var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
+        stack.alignment = .leading
         stack.spacing = 12
         return stack
     }()
@@ -49,10 +53,18 @@ class UploadTweetController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        switch config {
+        case .tweet:
+            print("tweet")
+        case .reply(let tweet):
+            print("retweet to \(tweet.caption)")
+        }
     }
     
-    init(user: User) {
+    init(user: User, config: UploadTweetConfiguration) {
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
     }
     
