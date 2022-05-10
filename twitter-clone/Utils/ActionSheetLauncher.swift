@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ActionSheetLauncherDelegate: AnyObject {
+    func didSelect(option: ActionSheetOptions)
+}
+
 class ActionSheetLauncher: NSObject {
     
     // MARK: - Properties
@@ -14,6 +18,9 @@ class ActionSheetLauncher: NSObject {
     private let user: User
     private let tableView = UITableView()
     private let reuseIdentifier = "actionSheetCell"
+    
+    weak var delegate: ActionSheetLauncherDelegate?
+    private var tableViewHeight: CGFloat?
     
     // we use lazy var because the user will only get set once the class is initialized
     private lazy var viewModel = ActionSheetViewModel(user: user)
@@ -67,6 +74,14 @@ class ActionSheetLauncher: NSObject {
     
     // MARK: - Helpers
     
+    private func showTableView(_ shouldShow: Bool) {
+        guard let window = window else { return }
+        guard let height = tableViewHeight else { return }
+        
+        let y = shouldShow ? window.frame.height - height : window.frame.height
+        tableView.frame.origin.y = y
+    }
+    
     func show() {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -76,6 +91,7 @@ class ActionSheetLauncher: NSObject {
         
         window.addSubview(blackView)
         let height = CGFloat(viewModel.options.count * 60) + 100
+        tableViewHeight = height
         blackView.frame = window.frame
         
         window.addSubview(tableView)
@@ -86,7 +102,7 @@ class ActionSheetLauncher: NSObject {
         
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.blackView.alpha = 1
-            self?.tableView.frame.origin.y -= height
+            self?.showTableView(true)
         }
     }
     
@@ -131,5 +147,16 @@ extension ActionSheetLauncher: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let option = viewModel.options[indexPath.row]
+        
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.blackView.alpha = 0
+            self?.showTableView(false)
+        } completion: { [weak self] _ in
+            self?.delegate?.didSelect(option: option)
+        }
     }
 }
