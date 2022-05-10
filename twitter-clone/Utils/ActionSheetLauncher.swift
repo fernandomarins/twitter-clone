@@ -28,6 +28,32 @@ class ActionSheetLauncher: NSObject {
         return view
     }()
     
+    private lazy var cancelButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Cancel", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .systemGroupedBackground
+        button.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var footerView: UIView = {
+        let view = UIView()
+        
+        view.addSubview(cancelButton)
+        cancelButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        cancelButton.anchor(
+            left: view.leftAnchor,
+            paddingLeft: 12,
+            right: view.rightAnchor,
+            paddingRight: 12
+        )
+        cancelButton.centerY(inView: view)
+        cancelButton.layer.cornerRadius = 50 / 2
+        
+        return view
+    }()
+    
     // MARK: - Lifecycle
     
     init(user: User) {
@@ -45,27 +71,27 @@ class ActionSheetLauncher: NSObject {
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         guard let window = window else { return }
-//        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
         self.window = window
         
         window.addSubview(blackView)
+        let height = CGFloat(3 * 60) + 100
         blackView.frame = window.frame
         
         window.addSubview(tableView)
         tableView.frame = CGRect(x: 0,
                                  y: window.frame.height,
                                  width: window.frame.width,
-                                 height: 300)
+                                 height: height)
         
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.blackView.alpha = 1
-            self?.tableView.frame.origin.y -= 300
+            self?.tableView.frame.origin.y -= height
         }
 
     }
     
     private func configureTableView() {
-        tableView.backgroundColor = .red
+        tableView.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -73,7 +99,7 @@ class ActionSheetLauncher: NSObject {
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(ActionSheetCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
     // MARK: - Selectors
@@ -92,12 +118,18 @@ extension ActionSheetLauncher: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ActionSheetCell
         
         return cell
     }
 }
 
 extension ActionSheetLauncher: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return footerView
+    }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 60
+    }
 }

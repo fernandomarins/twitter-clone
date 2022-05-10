@@ -24,6 +24,7 @@
 		55AFA2FF28217BE500180DCF /* TweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AFA2FE28217BE500180DCF /* TweetViewModel.swift */; };
 		55B733AC282A7046001E59C6 /* UploadTweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B733AB282A7046001E59C6 /* UploadTweetViewModel.swift */; };
 		55B733AE282A85D1001E59C6 /* ActionSheetLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B733AD282A85D1001E59C6 /* ActionSheetLauncher.swift */; };
+		55B733B0282A93C7001E59C6 /* ActionSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B733AF282A93C7001E59C6 /* ActionSheetCell.swift */; };
 		55C002FA2825AEFD002F4879 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C002F92825AEFD002F4879 /* UserCell.swift */; };
 		55CAE845281C1D3000429E41 /* UploadTweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CAE844281C1D3000429E41 /* UploadTweetController.swift */; };
 		55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0162C280F2FD30023ADBA /* Extensions.swift */; };
@@ -61,6 +62,7 @@
 		55AFA2FE28217BE500180DCF /* TweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewModel.swift; sourceTree = "<group>"; };
 		55B733AB282A7046001E59C6 /* UploadTweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetViewModel.swift; sourceTree = "<group>"; };
 		55B733AD282A85D1001E59C6 /* ActionSheetLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetLauncher.swift; sourceTree = "<group>"; };
+		55B733AF282A93C7001E59C6 /* ActionSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetCell.swift; sourceTree = "<group>"; };
 		55C002F92825AEFD002F4879 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		55CAE844281C1D3000429E41 /* UploadTweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetController.swift; sourceTree = "<group>"; };
 		55D0162C280F2FD30023ADBA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				55F2FD132823D94C0096E554 /* ProfileFilterCell.swift */,
 				55C002F92825AEFD002F4879 /* UserCell.swift */,
 				5524704D282964390001F278 /* TweetHeader.swift */,
+				55B733AF282A93C7001E59C6 /* ActionSheetCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				55D590B2280F0A8A00530021 /* ConversationsController.swift in Sources */,
 				55C002FA2825AEFD002F4879 /* UserCell.swift in Sources */,
 				559FE70328105D9B0013AE94 /* Utilities.swift in Sources */,
+				55B733B0282A93C7001E59C6 /* ActionSheetCell.swift in Sources */,
 				55D590AC280F0A6100530021 /* FeedController.swift in Sources */,
 				55D0162D280F2FD30023ADBA /* Extensions.swift in Sources */,
 				5524704C282961820001F278 /* TweetController.swift in Sources */,
