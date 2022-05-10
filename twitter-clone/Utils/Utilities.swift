@@ -62,4 +62,21 @@ class Utilities {
         
         return button
     }
+    
+    func createButton(imageName: String, selector: Selector) -> UIButton {
+        let button = UIButton()
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
+        button.setDimensions(width: 20, height: 20)
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        return button
+    }
+    
+    func attributedText(withValue value: Int, text: String) -> NSAttributedString {
+        let attributedTitle = NSMutableAttributedString(string: "\(value)", attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedTitle.append(NSAttributedString(string: "\(text)", attributes: [.font: UIFont.boldSystemFont(ofSize: 14),
+                                                                                  .foregroundColor: UIColor.lightGray]))
+        
+        return attributedTitle
+    }
 }

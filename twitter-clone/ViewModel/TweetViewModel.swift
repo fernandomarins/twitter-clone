@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 struct TweetViewModel {
+    
+    // MARK: - Properties
+    
     let tweet: Tweet
     let user: User
     
@@ -25,6 +28,24 @@ struct TweetViewModel {
         return formatter.string(from: tweet.timestamp ?? Date(), to: now) ?? ""
     }
     
+    var userNameText: String {
+        return "@\(user.userName)"
+    }
+    
+    var headerTimeStamp: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a ・ dd/MM/yyyy"
+        return formatter.string(from: tweet.timestamp ?? Date())
+    }
+    
+    var retweetAttributedString: NSAttributedString? {
+        return Utilities().attributedText(withValue: tweet.retweetsCount, text: " Retweets")
+    }
+    
+    var likesAttributedString: NSAttributedString? {
+        return Utilities().attributedText(withValue: tweet.likes, text: " Likes")
+    }
+    
     var userInfoText: NSAttributedString {
         let title = NSMutableAttributedString(string: user.fullName, attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
         title.append(NSAttributedString(string: " @\(user.userName)", attributes: [.font: UIFont.systemFont(ofSize: 14),
@@ -34,10 +55,23 @@ struct TweetViewModel {
         return title
     }
     
-    
+    // MARK: - Lifecycle
     
     init(tweet: Tweet) {
         self.tweet = tweet
         self.user = tweet.user
+    }
+    
+    // MARK: - Helpers
+    
+    func size(forWidth width: CGFloat) -> CGSize {
+        let measurementLabel = UILabel()
+        measurementLabel.text = tweet.caption
+        measurementLabel.numberOfLines = 0
+        measurementLabel.lineBreakMode = .byWordWrapping
+        measurementLabel.translatesAutoresizingMaskIntoConstraints = false
+        measurementLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
+        
+        return measurementLabel.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
     }
 }
