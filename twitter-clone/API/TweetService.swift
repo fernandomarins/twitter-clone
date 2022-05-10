@@ -13,7 +13,7 @@ struct TweetService {
     
     private init() {}
     
-    func uploadTweet(caption: String, completion: @escaping (Error?, DatabaseReference) -> Void) {
+    func uploadTweet(caption: String, type: UploadTweetConfiguration, completion: @escaping (Error?, DatabaseReference) -> Void) {
         // we need to know who made the tweet, that's why we get the UID
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
@@ -25,12 +25,15 @@ struct TweetService {
             "caption": caption
         ] as [String: Any]
         
-        let ref = ref_tweets.childByAutoId()
-        
-        ref.updateChildValues(values) { error, ref in
-            // update user-tweet structure after tweet upload completes
-            guard let tweetID = ref.key else { return }
-            ref_user_tweets.child(uid).updateChildValues([tweetID: 1], withCompletionBlock: completion)
+        switch type {
+        case .tweet:
+            ref_tweets.childByAutoId().updateChildValues(values) { _, ref in
+                // update user-tweet structure after tweet upload completes
+                guard let tweetID = ref.key else { return }
+                ref_user_tweets.child(uid).updateChildValues([tweetID: 1], withCompletionBlock: completion)
+            }
+        case .reply(let tweet):
+            ref_tweet_replies.child(tweet.tweetID).childByAutoId().updateChildValues(values, withCompletionBlock: completion)
         }
     }
     
