@@ -15,6 +15,13 @@ class TweetController: UICollectionViewController {
     private let headerIdentifier = "headerIdentifier"
     
     private let tweet: Tweet
+    private var replies = [Tweet]() {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
     
     // MARK: - Lifecycle
     
@@ -30,7 +37,15 @@ class TweetController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        print(tweet.caption)
+        fetchReplies()
+    }
+    
+    // MARK: - API
+    
+    private func fetchReplies() {
+        TweetService.shared.fetchReplies(forTweet: tweet) { [weak self] replies in
+            self?.replies = replies
+        }
     }
     
     // MARK: - Helpers
@@ -48,11 +63,12 @@ class TweetController: UICollectionViewController {
 extension TweetController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return replies.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
+        cell.tweet = replies[indexPath.row]
         return cell
     }
 }

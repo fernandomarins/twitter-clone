@@ -227,8 +227,8 @@ class TweetHeader: UICollectionReusableView {
         actionStack.addArrangedSubview(shareButton)
         
         actionStack.anchor(
-            bottom: bottomAnchor,
-            paddingBottom: 12
+            top: statsView.bottomAnchor,
+            paddingTop: 16
         )
         actionStack.centerX(inView: self)
     }
