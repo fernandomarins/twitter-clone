@@ -56,10 +56,20 @@ class FeedController: UICollectionViewController {
     private func fetchTweets() {
         TweetService.shared.fetchTweets { [weak self] tweets in
             self?.tweets = tweets
+            self?.checkIfUserLikedTweet(tweets)
         }
     }
     
     // MARK: - Helpers
+    
+    private func checkIfUserLikedTweet(_ tweets: [Tweet]) {
+        for (index, tweet) in tweets.enumerated() {
+            TweetService.shared.checkIfUserLikedTweet(tweet: tweet) { [weak self] didLike in
+                guard didLike else { return }
+                self?.tweets[index].didLike = true
+            }
+        }
+    }
 
     private func configureUI() {
         view.backgroundColor = .white
@@ -118,7 +128,19 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - TweetCellDelegate
+
 extension FeedController: TweetCellDelegate {
+    
+    func handleLikeTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        TweetService.shared.likeTweet(tweet: tweet) { _, _ in
+            cell.tweet?.didLike.toggle()
+            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+            cell.tweet?.likes = likes
+        }
+    }
+    
     func handleProfileImageTapped(_ cell: TweetCell) {
         guard let user = cell.tweet?.user else { return }
         let controller = ProfileController(user: user)
