@@ -11,7 +11,11 @@ class NotificationsController: UITableViewController {
 
     // MARK: - Properties
     
-    private var notifications = [Notification]()
+    private var notifications = [Notification]() {
+        didSet {
+            reloadTableView()
+        }
+    }
     private let reuseIdentifier = "notificationCell"
     
     // MARK: - Lifecycle
@@ -20,9 +24,19 @@ class NotificationsController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureUI()
+        fetchNotifications()
+    }
+    
+    // MARK: - API
+    
+    private func fetchNotifications() {
+        NotificationService.shared.fetchNotifications { [weak self] notifications in
+            self?.notifications = notifications
+        }
     }
     
     // MARK: - Helpers
+    
     private func configureUI() {
         view.backgroundColor = .white
         
@@ -32,11 +46,17 @@ class NotificationsController: UITableViewController {
         tableView.rowHeight = 60
         tableView.separatorStyle = .none
     }
+    
+    private func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
 }
 
 extension NotificationsController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return notifications.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
