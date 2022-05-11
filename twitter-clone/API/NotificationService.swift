@@ -11,7 +11,7 @@ struct NotificationService {
     
     static let shared = NotificationService()
     
-    func uploadNotification(type: NotificationType, tweet: Tweet? = nil) {
+    func uploadNotification(type: NotificationType, tweet: Tweet? = nil, user: User? = nil) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         var values: [String: Any] = ["timestap": Int(NSDate().timeIntervalSince1970),
@@ -21,8 +21,8 @@ struct NotificationService {
         if let tweet = tweet {
             values["tweetID"] = tweet.tweetID
             ref_notifications.child(tweet.user.uid).childByAutoId().updateChildValues(values)
-        } else {
-            
+        } else if let user = user {
+            ref_notifications.child(user.uid).childByAutoId().updateChildValues(values)
         }
     }
 }
