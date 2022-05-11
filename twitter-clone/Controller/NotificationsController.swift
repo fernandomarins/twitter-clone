@@ -34,19 +34,31 @@ class NotificationsController: UITableViewController {
         navigationController?.navigationBar.isHidden = false
     }
     
+    // MARK: - Selectors
+    
+    @objc private func handleRefresh() {
+        fetchNotifications()
+    }
+    
     // MARK: - API
     
     private func fetchNotifications() {
+        refreshControl?.beginRefreshing()
         NotificationService.shared.fetchNotifications { [weak self] notifications in
+            self?.refreshControl?.endRefreshing()
             self?.notifications = notifications
-            
-            for (index, notification) in notifications.enumerated() {
-                if case .follow = notification.type {
-                    let user = notification.user
-                    
-                    UserService.shared.checkIfUserIsFollowed(uid: user.uid) { isFollowed in
-                        self?.notifications[index].user.isFollowed = isFollowed
-                    }
+            self?.checkIfUserIsFollowed(notifications: notifications)
+
+        }
+    }
+    
+    private func checkIfUserIsFollowed(notifications: [Notification]) {
+        for (index, notification) in notifications.enumerated() {
+            if case .follow = notification.type {
+                let user = notification.user
+                
+                UserService.shared.checkIfUserIsFollowed(uid: user.uid) { [weak self] isFollowed in
+                    self?.notifications[index].user.isFollowed = isFollowed
                 }
             }
         }
@@ -62,6 +74,10 @@ class NotificationsController: UITableViewController {
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 60
         tableView.separatorStyle = .none
+        
+        let refreshControll = UIRefreshControl()
+        tableView.refreshControl = refreshControll
+        refreshControll.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
     private func reloadTableView() {
@@ -98,7 +114,17 @@ extension NotificationsController {
 
 extension NotificationsController: NotificationCellDelegate {
     func didTapFollow(_ cell: NotificationCell) {
+        guard let user = cell.notification?.user else { return }
         
+        if user.isFollowed {
+            UserService.shared.unfollowUser(uid: user.uid) { err, ref in
+                cell.notification?.user.isFollowed = false
+            }
+        } else {
+            UserService.shared.followUser(uid: user.uid) { err, ref in
+                cell.notification?.user.isFollowed = true
+            }
+        }
     }
     
     func didTapProfileImage(_ cell: NotificationCell) {
