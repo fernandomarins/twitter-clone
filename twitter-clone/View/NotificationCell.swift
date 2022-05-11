@@ -7,9 +7,21 @@
 
 import UIKit
 
+protocol NotificationCellDelegate: AnyObject {
+    func didTapProfileImage(_ cell: NotificationCell)
+}
+
 class NotificationCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    var notification: Notification? {
+        didSet {
+            configure()
+        }
+    }
+    
+    weak var delegate: NotificationCellDelegate?
     
     private let stack: UIStackView = {
         let stack = UIStackView()
@@ -46,7 +58,7 @@ class NotificationCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(stack)
+        contentView.addSubview(stack)
         stack.addArrangedSubview(profileImageView)
         stack.addArrangedSubview(notificationLabel)
         
@@ -68,6 +80,16 @@ class NotificationCell: UITableViewCell {
     // MARK: - Selectors
     
     @objc private func handleProfileImageTapped() {
+        delegate?.didTapProfileImage(self)
+    }
+    
+    // MARK: - Helpers
+    
+    private func configure() {
+        guard let notification = notification else { return }
         
+        let viewModel = NotificationViewModel(notification: notification)
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        notificationLabel.attributedText = viewModel.notificationText
     }
 }

@@ -51,7 +51,7 @@ struct TweetService {
                 tweets.append(tweet)
                 completion(tweets)
             }
-
+            
         }
     }
     
@@ -61,14 +61,20 @@ struct TweetService {
         ref_user_tweets.child(user.uid).observe(.childAdded) { snapshot in
             let tweetID = snapshot.key
             
-            ref_tweets.child(tweetID).observeSingleEvent(of: .value) { snapshot in
-                guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
-                guard let uid = dictionary["uid"] as? String else { return }
-                UserService.shared.fetchUser(uid: uid) { user in
-                    let tweet = Tweet(user: user, tweetID: tweetID, dictionary: dictionary)
-                    tweets.append(tweet)
-                    completion(tweets)
-                }
+            fetchTweet(withTweetID: tweetID) { tweet in
+                tweets.append(tweet)
+                completion(tweets)
+            }
+        }
+    }
+    
+    func fetchTweet(withTweetID tweetID: String, completion: @escaping (Tweet) -> Void) {
+        ref_tweets.child(tweetID).observeSingleEvent(of: .value) { snapshot in
+            guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
+            guard let uid = dictionary["uid"] as? String else { return }
+            UserService.shared.fetchUser(uid: uid) { user in
+                let tweet = Tweet(user: user, tweetID: tweetID, dictionary: dictionary)
+                completion(tweet)
             }
         }
     }
