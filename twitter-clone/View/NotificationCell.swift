@@ -9,6 +9,7 @@ import UIKit
 
 protocol NotificationCellDelegate: AnyObject {
     func didTapProfileImage(_ cell: NotificationCell)
+    func didTapFollow(_ cell: NotificationCell)
 }
 
 class NotificationCell: UITableViewCell {
@@ -53,6 +54,18 @@ class NotificationCell: UITableViewCell {
         return label
     }()
     
+    private lazy var followButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Loading", for: .normal)
+        button.setTitleColor(.twitterBlue, for: .normal)
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.twitterBlue.cgColor
+        button.layer.cornerRadius = 32 / 2
+        button.layer.borderWidth = 2
+        button.addTarget(self, action: #selector(handleFollowTap), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -71,6 +84,14 @@ class NotificationCell: UITableViewCell {
             right: rightAnchor,
             paddingRight: 12
         )
+        
+        addSubview(followButton)
+        followButton.centerY(inView: self)
+        followButton.setDimensions(width: 92, height: 32)
+        followButton.anchor(
+            right: rightAnchor,
+            paddingRight: 12
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -83,6 +104,10 @@ class NotificationCell: UITableViewCell {
         delegate?.didTapProfileImage(self)
     }
     
+    @objc private func handleFollowTap() {
+        delegate?.didTapFollow(self)
+    }
+    
     // MARK: - Helpers
     
     private func configure() {
@@ -91,5 +116,7 @@ class NotificationCell: UITableViewCell {
         let viewModel = NotificationViewModel(notification: notification)
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         notificationLabel.attributedText = viewModel.notificationText
+        followButton.isHidden = viewModel.shouldHideFollowButton
+        followButton.setTitle(viewModel.followButtonText, for: .normal)
     }
 }
