@@ -11,6 +11,7 @@ import SDWebImage
 protocol ProfileHeaderDelegate: AnyObject {
     func handleDismiss()
     func handleEditProfileFollow(_ header: ProfileHeader)
+    func didSelect(filter: ProfileFilterOptions)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -235,8 +236,9 @@ class ProfileHeader: UICollectionReusableView {
     }
 }
 
-extension ProfileHeader: ProfileFilterDelegate {
-    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
-
+extension ProfileHeader: ProfileFilterDelegate {    
+    func filterView(_ view: ProfileFilterView, didSelect index: Int) {
+        guard let filter = ProfileFilterOptions(rawValue: index) else { return }
+        delegate?.didSelect(filter: filter)
     }
 }

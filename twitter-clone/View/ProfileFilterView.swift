@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileFilterDelegate: AnyObject {
-    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath)
+    func filterView(_ view: ProfileFilterView, didSelect index: Int)
 }
 
 class ProfileFilterView: UIView {
@@ -95,7 +95,7 @@ extension ProfileFilterView: UICollectionViewDelegate {
             // changing the underline view's origin to be like the cell so the animation can work
             self?.underLineView.frame.origin.x = xPosition
         }
-        delegate?.filterView(self, didSelect: indexPath)
+        delegate?.filterView(self, didSelect: indexPath.row)
     }
 }
 
