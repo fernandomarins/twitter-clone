@@ -54,9 +54,13 @@ class FeedController: UICollectionViewController {
     // MARK: - API
     
     private func fetchTweets() {
+        collectionView.refreshControl?.beginRefreshing()
         TweetService.shared.fetchTweets { [weak self] tweets in
             self?.tweets = tweets
             self?.checkIfUserLikedTweet(tweets)
+            
+            self?.tweets = tweets.sorted(by: { $0.timestamp ?? Date() > $1.timestamp ?? Date() })
+            self?.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -81,6 +85,10 @@ class FeedController: UICollectionViewController {
         navigationItem.titleView = imageView
         
         configureLeftBarButton()
+        
+        let refreshControl = UIRefreshControl()
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
     private func configureLeftBarButton() {
@@ -91,6 +99,12 @@ class FeedController: UICollectionViewController {
     
     private func configureCell() {
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    }
+    
+    // MARK: - Selectors
+    
+    @objc private func handleRefresh() {
+        fetchTweets()
     }
 }
 
