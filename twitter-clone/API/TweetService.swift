@@ -17,7 +17,7 @@ struct TweetService {
         // we need to know who made the tweet, that's why we get the UID
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let values = [
+        var values = [
             "uid": uid,
             "timestamp": Int(NSDate().timeIntervalSince1970),
             "likes": 0,
@@ -33,7 +33,11 @@ struct TweetService {
                 ref_user_tweets.child(uid).updateChildValues([tweetID: 1], withCompletionBlock: completion)
             }
         case .reply(let tweet):
-            ref_tweet_replies.child(tweet.tweetID).childByAutoId().updateChildValues(values, withCompletionBlock: completion)
+            values["replyingTo"] = tweet.user.userName
+            ref_tweet_replies.child(tweet.tweetID).childByAutoId().updateChildValues(values) { err, ref in
+                guard let replyKey = ref.key else { return }
+                ref_user_replies.child(uid).updateChildValues([tweet.tweetID: replyKey], withCompletionBlock: completion)
+            }
         }
     }
     
@@ -79,6 +83,27 @@ struct TweetService {
         }
     }
     
+    func fetchReplies(forUser user: User, completion: @escaping ([Tweet]) -> Void) {
+        var replies = [Tweet]()
+        
+        ref_user_replies.child(user.uid).observe(.childAdded) { snapshot in
+            let tweetKey = snapshot.key
+            
+            guard let replyKey = snapshot.value as? String else { return }
+            
+            ref_tweet_replies.child(tweetKey).child(replyKey).observeSingleEvent(of: .value) { snapshot in
+                guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
+                guard let uid = dictionary["uid"] as? String else { return }
+                let replyID = snapshot.key
+                UserService.shared.fetchUser(uid: uid) { user in
+                    let tweet = Tweet(user: user, tweetID: replyID, dictionary: dictionary)
+                    replies.append(tweet)
+                    completion(replies)
+                }
+            }
+        }
+    }
+    
     func fetchReplies(forTweet tweet: Tweet, completion: @escaping ([Tweet]) -> Void) {
         var replies = [Tweet]()
         
@@ -90,6 +115,19 @@ struct TweetService {
                 let tweet = Tweet(user: user, tweetID: tweetID, dictionary: dictionary)
                 replies.append(tweet)
                 completion(replies)
+            }
+        }
+    }
+    
+    func fetcLikes(forUser user: User, completion: @escaping ([Tweet]) -> Void) {
+        var likes = [Tweet]()
+        ref_user_likes.child(user.uid).observe(.childAdded) { snapshot in
+            let tweetID = snapshot.key
+            fetchTweet(withTweetID: tweetID) { likedTweet in
+                var tweet = likedTweet
+                tweet.didLike = true
+                likes.append(tweet)
+                completion(likes)
             }
         }
     }

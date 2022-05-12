@@ -30,6 +30,22 @@ class TweetCell: UICollectionViewCell {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
+        stack.spacing = 8
+        return stack
+    }()
+    
+    private let imageCaptionStack: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .leading
+        stack.distribution = .fillProportionally
+        stack.spacing = 12
+        return stack
+    }()
+    
+    private let captionStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fillProportionally
         stack.spacing = 4
         return stack
     }()
@@ -53,6 +69,13 @@ class TweetCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
+        return label
+    }()
+    
+    private let replyLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     
@@ -100,25 +123,24 @@ class TweetCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(profileImageView)
-        profileImageView.anchor(
-            top: topAnchor,
-            paddingTop: 12,
-            left: leftAnchor,
-            paddingLeft: 8
-        )
-        
         addSubview(stackView)
         stackView.anchor(
-            top: profileImageView.topAnchor,
-            left: profileImageView.rightAnchor,
+            top: topAnchor,
+            paddingTop: 8,
+            left: leftAnchor,
             paddingLeft: 12,
             right: rightAnchor,
             paddingRight: 12
         )
         
-        stackView.addArrangedSubview(captionLabel)
-        stackView.addArrangedSubview(infoLabel)
+        stackView.addArrangedSubview(replyLabel)
+        stackView.addArrangedSubview(imageCaptionStack)
+        
+        imageCaptionStack.addArrangedSubview(profileImageView)
+        imageCaptionStack.addArrangedSubview(captionStack)
+        
+        captionStack.addArrangedSubview(infoLabel)
+        captionStack.addArrangedSubview(captionLabel)
         
         addSubview(actionStack)
         actionStack.addArrangedSubview(commentButton)
@@ -159,6 +181,9 @@ class TweetCell: UICollectionViewCell {
         
         likeButton.tintColor = viewModel.likeButtonTintColor
         likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        
+        replyLabel.isHidden = viewModel.shouldHideReplyLabel
+        replyLabel.text = viewModel.replyText
     }
     
     // MARK: - Selectors

@@ -11,6 +11,7 @@ import SDWebImage
 protocol ProfileHeaderDelegate: AnyObject {
     func handleDismiss()
     func handleEditProfileFollow(_ header: ProfileHeader)
+    func didSelect(filter: ProfileFilterOptions)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -111,12 +112,6 @@ class ProfileHeader: UICollectionReusableView {
     
     private let filterBar = ProfileFilterView()
     
-    private let underLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .twitterBlue
-        return view
-    }()
-    
     private let followingLabel: UILabel = {
         let label = UILabel()
         
@@ -199,14 +194,6 @@ class ProfileHeader: UICollectionReusableView {
             right: rightAnchor,
             height: 50
         )
-        
-        addSubview(underLineView)
-        underLineView.anchor(
-            left: leftAnchor,
-            bottom: bottomAnchor,
-            width: frame.width / 3,
-            height: 2
-        )
     }
     
     required init?(coder: NSCoder) {
@@ -249,16 +236,9 @@ class ProfileHeader: UICollectionReusableView {
     }
 }
 
-extension ProfileHeader: ProfileFilterDelegate {
-    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
-        // getting the select cell
-        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileFilterCell else { return }
-        
-        // getting the select cell's x position
-        let xPosition = cell.frame.origin.x
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            // changing the underline view's origin to be like the cell so the animation can work
-            self?.underLineView.frame.origin.x = xPosition
-        }
+extension ProfileHeader: ProfileFilterDelegate {    
+    func filterView(_ view: ProfileFilterView, didSelect index: Int) {
+        guard let filter = ProfileFilterOptions(rawValue: index) else { return }
+        delegate?.didSelect(filter: filter)
     }
 }

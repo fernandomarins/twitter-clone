@@ -15,13 +15,29 @@ class ProfileController: UICollectionViewController {
     
     private var user: User
     
-    private var tweets = [Tweet]() {
+    private var selectedFilter: ProfileFilterOptions = .tweets {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
         }
     }
+    
+    private var tweets = [Tweet]()
+    private var likes = [Tweet]()
+    private var replies = [Tweet]()
+    
+    private var currentDataSource: [Tweet] {
+        switch selectedFilter {
+        case .tweets:
+            return tweets
+        case .replies:
+            return replies
+        case .likes:
+            return likes
+        }
+    }
+    
     
     // MARK: - Lifecycle
     
@@ -40,6 +56,8 @@ class ProfileController: UICollectionViewController {
         fetcTweets()
         checkIfUserIsFollowed()
         fetchUserStats()
+        fetchLikeTweets()
+        fetchReplies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,6 +70,7 @@ class ProfileController: UICollectionViewController {
     private func fetcTweets() {
         TweetService.shared.fetchTweets(forUser: user) { [weak self] tweets in
             self?.tweets = tweets
+            self?.collectionView.reloadData()
         }
     }
     
@@ -69,6 +88,18 @@ class ProfileController: UICollectionViewController {
         }
     }
     
+    private func fetchLikeTweets() {
+        TweetService.shared.fetcLikes(forUser: user) { [weak self] likes in
+            self?.likes = likes
+        }
+    }
+    
+    private func fetchReplies() {
+        TweetService.shared.fetchReplies(forUser: user) { [weak self] replies in
+            self?.replies = replies
+        }
+    }
+    
     // MARK: - Helpers
     
     private func configureCollectionView() {
@@ -79,6 +110,9 @@ class ProfileController: UICollectionViewController {
         collectionView.register(ProfileHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: headerIdentifier)
+        
+        guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
+        collectionView.contentInset.bottom = tabHeight
     }
 }
 
@@ -86,12 +120,12 @@ class ProfileController: UICollectionViewController {
 
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tweets.count
+        return currentDataSource.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = tweets[indexPath.row]
+        cell.tweet = currentDataSource[indexPath.row]
         return cell
     }
 }
@@ -104,6 +138,12 @@ extension ProfileController {
         
         return header
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = TweetController(tweet: currentDataSource[indexPath.row])
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -115,11 +155,24 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
+        // changing the cell height
+        let tweet = currentDataSource[indexPath.row]
+        let viewModel = TweetViewModel(tweet: tweet)
+        var height = viewModel.size(forWidth: view.frame.width).height + 72
+        
+        if currentDataSource[indexPath.row].isReply {
+            height += 28
+        }
+            
+        return CGSize(width: view.frame.width, height: height)
     }
 }
 
 extension ProfileController: ProfileHeaderDelegate {
+    func didSelect(filter: ProfileFilterOptions) {
+        selectedFilter = filter
+    }
+    
     func handleEditProfileFollow(_ header: ProfileHeader) {
         
         // if it's the current user we don't want to follow or unfollow
