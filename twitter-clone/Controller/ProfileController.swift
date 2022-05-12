@@ -177,7 +177,10 @@ extension ProfileController: ProfileHeaderDelegate {
         
         // if it's the current user we don't want to follow or unfollow
         if user.isCurrentUser {
-            return
+            let controller = EditProfileController(user: user)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         }
         
         if user.isFollowed {
