@@ -17,7 +17,7 @@ struct TweetService {
         // we need to know who made the tweet, that's why we get the UID
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let values = [
+        var values = [
             "uid": uid,
             "timestamp": Int(NSDate().timeIntervalSince1970),
             "likes": 0,
@@ -33,6 +33,7 @@ struct TweetService {
                 ref_user_tweets.child(uid).updateChildValues([tweetID: 1], withCompletionBlock: completion)
             }
         case .reply(let tweet):
+            values["replyingTo"] = tweet.user.userName
             ref_tweet_replies.child(tweet.tweetID).childByAutoId().updateChildValues(values) { err, ref in
                 guard let replyKey = ref.key else { return }
                 ref_user_replies.child(uid).updateChildValues([tweet.tweetID: replyKey], withCompletionBlock: completion)
