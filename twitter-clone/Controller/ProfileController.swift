@@ -54,7 +54,7 @@ class ProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        fetcTweets()
+        fetchTweets()
         checkIfUserIsFollowed()
         fetchUserStats()
         fetchLikeTweets()
@@ -68,7 +68,7 @@ class ProfileController: UICollectionViewController {
     }
     
     // MARK: - API
-    private func fetcTweets() {
+    private func fetchTweets() {
         TweetService.shared.fetchTweets(forUser: user) { [weak self] tweets in
             self?.tweets = tweets
             self?.collectionView.reloadData()

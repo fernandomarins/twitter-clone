@@ -80,7 +80,7 @@ class EditProfileController: UITableViewController {
         }
         
         if userInfoChanged && imageChanged {
-            UserService.shared.saveUserData(user: user) { [weak self] err, ref in
+            UserService.shared.saveUserData(user: user) { [weak self] _, _ in
                 self?.updateProfileImage()
             }
         }

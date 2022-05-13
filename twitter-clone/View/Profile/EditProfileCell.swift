@@ -70,6 +70,7 @@ class EditProfileCell: UITableViewCell {
             left: titleLabel.rightAnchor,
             paddingLeft: 16,
             bottom: bottomAnchor,
+            paddingBottom: 4,
             right: rightAnchor,
             paddingRight: 8
         )
