@@ -21,6 +21,10 @@ class EditProfileController: UITableViewController {
     private let imagePicker = UIImagePickerController()
     private var userInfoChanged = false
     
+    private var imageChanged: Bool {
+        return selectdImage != nil
+    }
+    
     weak var delegate: EditProfileControllerDelegate?
     
     private var selectdImage: UIImage? {
@@ -54,15 +58,39 @@ class EditProfileController: UITableViewController {
     }
     
     @objc private func handleDone() {
+        guard imageChanged || userInfoChanged else { return }
         updatedUserData()
     }
     
     // MARK: - API
     
     private func updatedUserData() {
-        UserService.shared.saveUserData(user: user) { [self] _, _ in
+        
+        if imageChanged && !userInfoChanged {
+            updateProfileImage()
+        }
+        
+        if userInfoChanged && !imageChanged {
+            UserService.shared.saveUserData(user: user) { [self] _, _ in
+                delegate?.controller(self, wantsToUpdate: user)
+            }
+        }
+        
+        if userInfoChanged && imageChanged {
+            UserService.shared.saveUserData(user: user) { [weak self] err, ref in
+                self?.updateProfileImage()
+            }
+        }
+    }
+    
+    private func updateProfileImage() {
+        guard let image = selectdImage else { return }
+        
+        UserService.shared.updateProfileImage(image: image) { [self] profileImageUrl in
+            self.user.profileImageUrl = profileImageUrl
             delegate?.controller(self, wantsToUpdate: user)
         }
+
     }
     
     // MARK: - Helpers
@@ -76,7 +104,7 @@ class EditProfileController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
-        navigationItem.rightBarButtonItem?.isEnabled = false
+        
     }
     
     private func configureTableView() {

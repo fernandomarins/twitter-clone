@@ -80,7 +80,7 @@ class EditProfileCell: UITableViewCell {
             top: topAnchor,
             paddingTop: 4,
             left: titleLabel.rightAnchor,
-            paddingLeft: 16,
+            paddingLeft: 14,
             bottom: bottomAnchor,
             right: rightAnchor,
             paddingRight: 8
@@ -111,6 +111,6 @@ class EditProfileCell: UITableViewCell {
         titleLabel.text = viewModel.titleText
         infoTextField.text = viewModel.optionValue
         bioTextView.text = viewModel.optionValue
-
+        bioTextView.placeholderLabel.isHidden = viewModel.shouldHidePlaceholderLabel
     }
 }
