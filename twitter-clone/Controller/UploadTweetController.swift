@@ -47,7 +47,7 @@ class UploadTweetController: UIViewController {
         return imageView
     }()
     
-    private let captionTextView = CaptionTextView()
+    private let captionTextView = InputTextView()
     
     private let stack: UIStackView = {
         let stack = UIStackView()
