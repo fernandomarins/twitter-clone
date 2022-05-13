@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CaptionTextView: UITextView {
+class InputTextView: UITextView {
     
     // MARK: - Properties
     
@@ -37,7 +37,10 @@ class CaptionTextView: UITextView {
             paddingLeft: 4
         )
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleTextInputChange),
+                                               name: UITextView.textDidChangeNotification,
+                                               object: nil)
     }
     
     required init?(coder: NSCoder) {
