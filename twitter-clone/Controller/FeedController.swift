@@ -113,6 +113,7 @@ class FeedController: UICollectionViewController {
 
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("número: \(tweets.count)")
         return tweets.count
     }
     
@@ -160,7 +161,7 @@ extension FeedController: TweetCellDelegate {
             cell.tweet?.likes = likes
             
             guard !tweet.didLike else { return }
-            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
+            NotificationService.shared.uploadNotification(toUser: tweet.user, type: .like, tweetID: tweet.tweetID)
         }
     
     }

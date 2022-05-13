@@ -21,6 +21,8 @@ class EditProfileController: UITableViewController {
     private let imagePicker = UIImagePickerController()
     private var userInfoChanged = false
     
+    private let footer = EditProfileFooter()
+    
     private var imageChanged: Bool {
         return selectdImage != nil
     }
@@ -108,10 +110,13 @@ class EditProfileController: UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.tableHeaderView = headerView
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 180)
-        tableView.tableFooterView = UIView()
         headerView.delegate = self
+        tableView.tableHeaderView = headerView
+        
+        footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+        footer.delegate = self
+        tableView.tableFooterView = footer
         
         tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -179,5 +184,11 @@ extension EditProfileController: EditProfileCellDelegate {
         case .bio:
             user.bio = cell.bioTextView.text
         }
+    }
+}
+
+extension EditProfileController: EditProfileFooterDelegate {
+    func handleLogout() {
+        
     }
 }
