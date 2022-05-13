@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5519FFD8282E8A9900A2FE44 /* ActiveLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 5519FFD7282E8A9900A2FE44 /* ActiveLabel */; };
 		5524704C282961820001F278 /* TweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524704B282961820001F278 /* TweetController.swift */; };
 		5524704E282964390001F278 /* TweetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524704D282964390001F278 /* TweetHeader.swift */; };
 		5527697A2812D56F00C5FAF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 552769792812D56F00C5FAF3 /* GoogleService-Info.plist */; };
@@ -113,6 +114,7 @@
 			files = (
 				5527697F2812D69400C5FAF3 /* FirebaseDatabase in Frameworks */,
 				5527697D2812D69400C5FAF3 /* FirebaseAuth in Frameworks */,
+				5519FFD8282E8A9900A2FE44 /* ActiveLabel in Frameworks */,
 				554D6FD9281B02F6006B03DC /* SDWebImage in Frameworks */,
 				552769812812D69400C5FAF3 /* FirebaseStorage in Frameworks */,
 			);
@@ -274,6 +276,7 @@
 				5527697E2812D69400C5FAF3 /* FirebaseDatabase */,
 				552769802812D69400C5FAF3 /* FirebaseStorage */,
 				554D6FD8281B02F6006B03DC /* SDWebImage */,
+				5519FFD7282E8A9900A2FE44 /* ActiveLabel */,
 			);
 			productName = "twitter-clone";
 			productReference = 55D59089280EF68E00530021 /* twitter-clone.app */;
@@ -306,6 +309,7 @@
 			packageReferences = (
 				5527697B2812D69400C5FAF3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				554D6FD7281B02F6006B03DC /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				5519FFD6282E8A9900A2FE44 /* XCRemoteSwiftPackageReference "ActiveLabel" */,
 			);
 			productRefGroup = 55D5908A280EF68E00530021 /* Products */;
 			projectDirPath = "";
@@ -586,6 +590,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5519FFD6282E8A9900A2FE44 /* XCRemoteSwiftPackageReference "ActiveLabel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/optonaut/ActiveLabel.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		5527697B2812D69400C5FAF3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -605,6 +617,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5519FFD7282E8A9900A2FE44 /* ActiveLabel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5519FFD6282E8A9900A2FE44 /* XCRemoteSwiftPackageReference "ActiveLabel" */;
+			productName = ActiveLabel;
+		};
 		5527697C2812D69400C5FAF3 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5527697B2812D69400C5FAF3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
