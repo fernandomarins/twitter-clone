@@ -36,7 +36,6 @@ class EditProfileCell: UITableViewCell {
         textField.textAlignment = .left
         textField.textColor = .twitterBlue
         textField.addTarget(self, action: #selector(handleUpdateUserInfo), for: .editingDidEnd)
-        textField.text = "textfield"
         return textField
     }()
     

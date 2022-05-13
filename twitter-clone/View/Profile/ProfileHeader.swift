@@ -75,7 +75,7 @@ class ProfileHeader: UICollectionReusableView {
     private let userDetailsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 4
         return stackView
     }()
@@ -97,8 +97,8 @@ class ProfileHeader: UICollectionReusableView {
     private let bioLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "This is a user bio that will span more than one line for test purpose"
-        label.numberOfLines = 0
+//        label.text = "This is a user bio that will span more than one line for test purpose"
+        label.numberOfLines = 3
         return label
     }()
     
@@ -106,7 +106,7 @@ class ProfileHeader: UICollectionReusableView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     
@@ -225,6 +225,8 @@ class ProfileHeader: UICollectionReusableView {
         let viewModel = ProfileHeaderViewModel(user: user)
         
         profileImageView.sd_setImage(with: user.profileImageUrl, completed: nil)
+        
+        bioLabel.text = user.bio
         
         editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         
