@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol EditProfileCellDelegate: AnyObject {
+    func updateUserInfo(_ cell: EditProfileCell)
+}
+
 class EditProfileCell: UITableViewCell {
     
     // MARK: - Properties
@@ -16,6 +20,8 @@ class EditProfileCell: UITableViewCell {
             configure()
         }
     }
+    
+    weak var delegate: EditProfileCellDelegate?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -39,6 +45,7 @@ class EditProfileCell: UITableViewCell {
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.textColor = .twitterBlue
         textView.placeholderLabel.text = "Bio"
+        
         return textView
     }()
     
@@ -79,6 +86,10 @@ class EditProfileCell: UITableViewCell {
             paddingRight: 8
         )
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleUpdateUserInfo),
+                                               name: UITextView.textDidEndEditingNotification,
+                                               object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -87,7 +98,7 @@ class EditProfileCell: UITableViewCell {
     
     // MARK: - Selectors
     @objc private func handleUpdateUserInfo() {
-        
+        delegate?.updateUserInfo(self)
     }
     
     // MARK: - Helpers

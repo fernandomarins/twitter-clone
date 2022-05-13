@@ -11,9 +11,16 @@ class EditProfileController: UITableViewController {
     
     // MARK: - Properties
     
-    private let user: User
+    private var user: User
     private lazy var headerView = EditProfileHeader(user: user)
     private let reuseIdentifier = "editProfileCell"
+    private let imagePicker = UIImagePickerController()
+    
+    private var selectdImage: UIImage? {
+        didSet {
+            headerView.profileImageView.image = selectdImage
+        }
+    }
     
     // MARK: - Lifecycle
     
@@ -30,6 +37,7 @@ class EditProfileController: UITableViewController {
         super.viewDidLoad()
         configureNavBar()
         configureTableView()
+        configureImagePicker()
     }
     
     // MARK: - Selectors
@@ -67,6 +75,11 @@ class EditProfileController: UITableViewController {
         tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
+    private func configureImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+    
 }
 
 extension EditProfileController {
@@ -81,6 +94,8 @@ extension EditProfileController {
         guard let option = EditProfileOptions(rawValue: indexPath.row) else { return cell }
         cell.viewModel = EditProfileViewModel(user: user, option: option)
         
+        cell.delegate = self
+        
         return cell
     }
 }
@@ -94,6 +109,32 @@ extension EditProfileController {
 
 extension EditProfileController: EditProfileHeaderDelegate {
     func didTapChangeProfilePhoto() {
+        present(imagePicker, animated: true, completion: nil)
+    }
+}
+
+extension EditProfileController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        guard let image = info[.editedImage] as? UIImage else { return }
+        selectdImage = image
+        
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension EditProfileController: EditProfileCellDelegate {
+    func updateUserInfo(_ cell: EditProfileCell) {
+        guard let viewModel = cell.viewModel else { return }
+        switch viewModel.option {
+        case .fullName:
+            guard let fullName = cell.infoTextField.text else { return }
+            user.fullName = fullName
+        case .userName:
+            guard let userName = cell.infoTextField.text else { return }
+            user.userName = userName
+        case .bio:
+            user.bio = cell.bioTextView.text
+        }
     }
 }
