@@ -78,6 +78,7 @@ class RegistrationController: UIViewController {
     
     private let userNameTextField: UITextField = {
         let textField = Utilities().textField(withPlaceholder: "Username")
+        textField.autocapitalizationType = .none
         return textField
     }()
     
