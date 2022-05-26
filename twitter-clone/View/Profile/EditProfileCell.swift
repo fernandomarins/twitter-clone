@@ -36,6 +36,7 @@ class EditProfileCell: UITableViewCell {
         textField.textAlignment = .left
         textField.textColor = .twitterBlue
         textField.addTarget(self, action: #selector(handleUpdateUserInfo), for: .editingDidEnd)
+        textField.delegate = self
         return textField
     }()
     
@@ -44,7 +45,6 @@ class EditProfileCell: UITableViewCell {
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.textColor = .twitterBlue
         textView.placeholderLabel.text = "Bio"
-        
         return textView
     }()
     
@@ -112,5 +112,12 @@ class EditProfileCell: UITableViewCell {
         infoTextField.text = viewModel.optionValue
         bioTextView.text = viewModel.optionValue
         bioTextView.placeholderLabel.isHidden = viewModel.shouldHidePlaceholderLabel
+    }
+}
+
+extension EditProfileCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
