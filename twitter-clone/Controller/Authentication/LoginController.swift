@@ -72,6 +72,7 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupTextFields()
     }
     
     // MARK: - Selectors
@@ -142,5 +143,10 @@ class LoginController: UIViewController {
                                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                      right: view.rightAnchor,
                                      paddingRight: 40)
+    }
+    
+    private func setupTextFields() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
     }
 }

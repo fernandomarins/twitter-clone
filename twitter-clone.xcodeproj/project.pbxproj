@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5519FFD8282E8A9900A2FE44 /* ActiveLabel in Frameworks */ = {isa = PBXBuildFile; productRef = 5519FFD7282E8A9900A2FE44 /* ActiveLabel */; };
+		5519FFDA282EC75D00A2FE44 /* EditProfileFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5519FFD9282EC75D00A2FE44 /* EditProfileFooter.swift */; };
 		5524704C282961820001F278 /* TweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524704B282961820001F278 /* TweetController.swift */; };
 		5524704E282964390001F278 /* TweetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5524704D282964390001F278 /* TweetHeader.swift */; };
 		5527697A2812D56F00C5FAF3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 552769792812D56F00C5FAF3 /* GoogleService-Info.plist */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5519FFD9282EC75D00A2FE44 /* EditProfileFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFooter.swift; sourceTree = "<group>"; };
 		5524704B282961820001F278 /* TweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetController.swift; sourceTree = "<group>"; };
 		5524704D282964390001F278 /* TweetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetHeader.swift; sourceTree = "<group>"; };
 		552769792812D56F00C5FAF3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				55F2FD132823D94C0096E554 /* ProfileFilterCell.swift */,
 				55C8FEB8282D7C2000A435A9 /* EditProfileHeader.swift */,
 				55C8FEBC282DAFA700A435A9 /* EditProfileCell.swift */,
+				5519FFD9282EC75D00A2FE44 /* EditProfileFooter.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				55B733B2282A9F7A001E59C6 /* ActionSheetViewModel.swift in Sources */,
 				55B733B8282BD9D0001E59C6 /* NotificationCell.swift in Sources */,
 				55C8FEBB282DAF3C00A435A9 /* EditProfileViewModel.swift in Sources */,
+				5519FFDA282EC75D00A2FE44 /* EditProfileFooter.swift in Sources */,
 				55D01632280F394E0023ADBA /* RegistrationController.swift in Sources */,
 				55D590AA280F05AB00530021 /* MainTabController.swift in Sources */,
 				55F2FD122823D75D0096E554 /* ProfileFilterView.swift in Sources */,

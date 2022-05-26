@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfileController: UICollectionViewController {
     
@@ -53,7 +54,7 @@ class ProfileController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        fetcTweets()
+        fetchTweets()
         checkIfUserIsFollowed()
         fetchUserStats()
         fetchLikeTweets()
@@ -67,7 +68,7 @@ class ProfileController: UICollectionViewController {
     }
     
     // MARK: - API
-    private func fetcTweets() {
+    private func fetchTweets() {
         TweetService.shared.fetchTweets(forUser: user) { [weak self] tweets in
             self?.tweets = tweets
             self?.collectionView.reloadData()
@@ -151,7 +152,14 @@ extension ProfileController {
 extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 350)
+        
+        var height: CGFloat = 300
+        
+        if user.bio != nil {
+            height += 40
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -191,11 +199,11 @@ extension ProfileController: ProfileHeaderDelegate {
             }
             
         } else {
-            UserService.shared.followUser(uid: user.uid) { [weak self] error, ref in
-                self?.user.isFollowed = true
-                self?.collectionView.reloadData()
+            UserService.shared.followUser(uid: user.uid) { [self] error, ref in
+                self.user.isFollowed = true
+                self.collectionView.reloadData()
                 
-                NotificationService.shared.uploadNotification(type: .follow, user: self?.user)
+                NotificationService.shared.uploadNotification(toUser: self.user, type: .follow)
             }
         }
 
@@ -207,6 +215,19 @@ extension ProfileController: ProfileHeaderDelegate {
 }
 
 extension ProfileController: EditProfileControllerDelegate {
+    func handleLogout() {
+        do {
+            try Auth.auth().signOut()
+            DispatchQueue.main.async { [weak self] in
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self?.present(nav, animated: true, completion: nil)
+            }
+        } catch let error {
+            print("failed to signout with error \(error.localizedDescription)")
+        }
+    }
+    
     func controller(_ controller: EditProfileController, wantsToUpdate user: User) {
         controller.dismiss(animated: true, completion: nil)
         self.user = user

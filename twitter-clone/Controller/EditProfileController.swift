@@ -9,6 +9,7 @@ import UIKit
 
 protocol EditProfileControllerDelegate: AnyObject {
     func controller(_ controller: EditProfileController, wantsToUpdate user: User)
+    func handleLogout()
 }
 
 class EditProfileController: UITableViewController {
@@ -20,6 +21,8 @@ class EditProfileController: UITableViewController {
     private let reuseIdentifier = "editProfileCell"
     private let imagePicker = UIImagePickerController()
     private var userInfoChanged = false
+    
+    private let footer = EditProfileFooter()
     
     private var imageChanged: Bool {
         return selectdImage != nil
@@ -58,7 +61,7 @@ class EditProfileController: UITableViewController {
     }
     
     @objc private func handleDone() {
-        guard imageChanged || userInfoChanged else { return }
+        guard userInfoChanged || imageChanged else { return }
         updatedUserData()
     }
     
@@ -77,7 +80,7 @@ class EditProfileController: UITableViewController {
         }
         
         if userInfoChanged && imageChanged {
-            UserService.shared.saveUserData(user: user) { [weak self] err, ref in
+            UserService.shared.saveUserData(user: user) { [weak self] _, _ in
                 self?.updateProfileImage()
             }
         }
@@ -108,10 +111,13 @@ class EditProfileController: UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.tableHeaderView = headerView
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 180)
-        tableView.tableFooterView = UIView()
         headerView.delegate = self
+        tableView.tableHeaderView = headerView
+        
+        footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+        footer.delegate = self
+        tableView.tableFooterView = footer
         
         tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -166,8 +172,8 @@ extension EditProfileController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension EditProfileController: EditProfileCellDelegate {
     func updateUserInfo(_ cell: EditProfileCell) {
-        guard let viewModel = cell.viewModel else { return }
         userInfoChanged = true
+        guard let viewModel = cell.viewModel else { return }
         navigationItem.rightBarButtonItem?.isEnabled = true
         switch viewModel.option {
         case .fullName:
@@ -179,5 +185,20 @@ extension EditProfileController: EditProfileCellDelegate {
         case .bio:
             user.bio = cell.bioTextView.text
         }
+    }
+}
+
+extension EditProfileController: EditProfileFooterDelegate {
+    func handleLogout() {
+        let alert = UIAlertController(title: nil, message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Log out", style: .destructive, handler: { [weak self] _ in
+            self?.delegate?.handleLogout()
+            self?.dismiss(animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+        
     }
 }

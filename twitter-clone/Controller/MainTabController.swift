@@ -34,9 +34,7 @@ class MainTabController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .twitterBlue
-//        logUserOut()
-        
+        view.backgroundColor = .twitterBlue        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,15 +62,6 @@ class MainTabController: UITabBarController {
             configureUI()
             configureViewControllers()
             fetchUser()
-        }
-    }
-    
-    private func logUserOut() {
-        do {
-            try Auth.auth().signOut()
-            print("Did log out")
-        } catch let error {
-            print("failed to signout with error \(error.localizedDescription)")
         }
     }
     
@@ -112,10 +101,7 @@ class MainTabController: UITabBarController {
         let notifications = NotificationsController()
         let navNotifications = templateNavigationController(image: UIImage(named: "like_unselected"), rootViewController: notifications)
         
-        let conversation = ConversationsController()
-        let navConversation = templateNavigationController(image: UIImage(named: "ic_mail_outline_white_2x-1"), rootViewController: conversation)
-        
-        viewControllers = [navFeed, navExplore, navNotifications, navConversation]
+        viewControllers = [navFeed, navExplore, navNotifications]
     }
     
     private func templateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController {
