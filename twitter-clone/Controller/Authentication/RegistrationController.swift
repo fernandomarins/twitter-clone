@@ -104,6 +104,7 @@ class RegistrationController: UIViewController {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         configureUI()
+        setupTextFields()
     }
     
     // MARK: - Selectors
@@ -204,6 +205,13 @@ class RegistrationController: UIViewController {
                                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                      right: view.rightAnchor,
                                      paddingRight: 40)
+    }
+    
+    private func setupTextFields() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        fullNameTextField.delegate = self
+        userNameTextField.delegate = self
     }
 
 }
