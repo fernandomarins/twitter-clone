@@ -61,7 +61,7 @@ class EditProfileController: UITableViewController {
     }
     
     @objc private func handleDone() {
-        guard imageChanged || userInfoChanged else { return }
+        guard userInfoChanged || imageChanged else { return }
         updatedUserData()
     }
     
@@ -172,8 +172,8 @@ extension EditProfileController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension EditProfileController: EditProfileCellDelegate {
     func updateUserInfo(_ cell: EditProfileCell) {
-        guard let viewModel = cell.viewModel else { return }
         userInfoChanged = true
+        guard let viewModel = cell.viewModel else { return }
         navigationItem.rightBarButtonItem?.isEnabled = true
         switch viewModel.option {
         case .fullName:

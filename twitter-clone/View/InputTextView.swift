@@ -24,10 +24,11 @@ class InputTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
+        delegate = self
         backgroundColor = .white
         font = UIFont.systemFont(ofSize: 16)
         isScrollEnabled = false
-//        heightAnchor.constraint(equalToConstant: 100).isActive = true
+        heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         addSubview(placeholderLabel)
         placeholderLabel.anchor(
@@ -49,5 +50,15 @@ class InputTextView: UITextView {
     
     @objc private func handleTextInputChange() {
         placeholderLabel.isHidden = !text.isEmpty
+    }
+}
+
+extension InputTextView: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }
